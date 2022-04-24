@@ -3,5 +3,5 @@ export default interface OneTaskInterface {
   description: string;
   date: { start: string; end: string };
   competitions: string;
-  user: number;
+  user: any;
 }

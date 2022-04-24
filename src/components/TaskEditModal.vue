@@ -1,6 +1,6 @@
 <template>
   <div class="details-modal">
-    <div class="details-modal-close" @click="$emit(`closeModal`, data)">
+    <div class="details-modal-close" @click="$emit(`closeModal`)">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="14"
@@ -28,7 +28,7 @@
           ><input
             type="text"
             class="details-modal-edit-inputs edit-inputs-h1"
-            v-model="title"
+            v-model="modalTask.title"
             oninput="this.parentNode.dataset.replicatedValue = this.value"
         /></label>
         <p>в колонке <a href="#">Нужно сделать</a></p>
@@ -74,7 +74,7 @@
               <textarea
                 class="details-modal-edit-inputs edit-inputs-textarea"
                 oninput="this.parentNode.dataset.replicatedValue = this.value + 3"
-                v-model="description"
+                v-model="modalTask.description"
               >
               </textarea>
             </label>
@@ -168,19 +168,21 @@
   </div>
 </template>
 
-<script type="ts">
-import { defineComponent } from "vue";
+<script lang="ts">
+import { defineComponent, PropType } from "vue";
 import OneTaskInterface from "../interfaces/OneTaskInterface";
 
 export default defineComponent({
   name: "TaskEditModal",
-  props: { oneTask: {}, task: {} },
+  props: {
+    oneTask: {
+      type: Object as PropType<OneTaskInterface>,
+    },
+    task: {},
+  },
   data() {
     return {
-      modalTask: {
-        title: this.oneTask.title,
-        description: this.oneTask.description,
-      },
+      modalTask: this.oneTask,
     };
   },
 });

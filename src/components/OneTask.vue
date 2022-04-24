@@ -1,14 +1,14 @@
 <template>
   <TaskEditModal
     :oneTask="oneTask"
-    :task="task"
+    :task="task.tasks"
     v-if="openTaskModal"
     @closeModal="closeModal"
   ></TaskEditModal>
   <div
     class="task"
     draggable="true"
-    v-for="j in task"
+    v-for="j in task.tasks"
     :key="j"
     @click="openModal(j)"
   >
@@ -42,27 +42,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import TaskEditModal from "@/components/TaskEditModal.vue";
 import OneTaskInterface from "@/interfaces/OneTaskInterface";
+import OneColumnInterface from "@/interfaces/OneColumnInterface";
 export default defineComponent({
   name: "OneTask",
-  props: ["tasksOfColumns"],
+  props: {
+    tasksOfColumns: {
+      type: Object as PropType<OneColumnInterface>,
+    },
+  },
   components: { TaskEditModal },
   data() {
     return {
       openTaskModal: false,
-      task: this.tasksOfColumns.tasks,
-      oneTask: this.tasksOfColumns.tasks[0],
+      task: this.tasksOfColumns,
+      oneTask: Object as PropType<OneTaskInterface>,
     };
   },
   methods: {
-    openModal(task: OneTaskInterface) {
+    openModal(task: PropType<OneTaskInterface>) {
       this.oneTask = task;
       this.openTaskModal = !this.openTaskModal;
     },
 
-    closeModal(task: OneTaskInterface) {
+    closeModal(task: PropType<OneTaskInterface>) {
       this.oneTask = task;
       this.openTaskModal = false;
     },

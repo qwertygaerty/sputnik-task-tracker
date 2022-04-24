@@ -4,16 +4,16 @@
     <RecentActivity></RecentActivity>
     <TaskBoards @getBoard="getBoardTask" :Board="newBoard"></TaskBoards>
   </aside>
-  <TaskBoard :task="board" v-if="board"></TaskBoard>
+  <TaskBoard :task="board" v-if="Object.keys(board).length !== 0"></TaskBoard>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import OneBoardInterface from "@/interfaces/OneBoardInterface";
 import TaskBoards from "./TaskBoards.vue";
 import RecentActivity from "./RecentActivity.vue";
 import HeaderPanel from "./HeaderPanel.vue";
 import TaskBoard from "./TaskBoard.vue";
-import OneBoardInterface from "@/interfaces/OneBoardInterface";
 
 export default defineComponent({
   name: "HomePanel",
@@ -21,16 +21,14 @@ export default defineComponent({
   props: {},
   data() {
     return {
-      board: "",
+      board: Object as PropType<OneBoardInterface>,
       newBoard: "",
     };
   },
 
   methods: {
-    //Это скоро исправлю
-    getBoardTask: function (item: string) {
+    getBoardTask: function (item: PropType<OneBoardInterface>) {
       this.board = item;
-      console.log(item);
     },
   },
 });

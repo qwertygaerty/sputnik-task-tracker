@@ -1,7 +1,7 @@
 <template>
   <main class="project">
     <div class="project-info">
-      <h1>{{ name }}</h1>
+      <h1>{{ board.name }}</h1>
       <div class="project-participants">
         <span></span>
         <span></span>
@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="project-tasks">
-      <div class="project-column" v-for="i in columns" :key="i">
+      <div class="project-column" v-for="i in board.columns" :key="i">
         <div class="project-column-heading">
           <h2 class="project-column-heading__title">{{ i.name }}</h2>
           <button class="project-column-heading__options"></button>
@@ -43,18 +43,21 @@
 <script lang="ts">
 import OneTask from "@/components/OneTask.vue";
 import CreateModal from "@/components/CreateModal.vue";
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import OneBoardInterface from "@/interfaces/OneBoardInterface";
 
 export default defineComponent({
   name: "TaskBoard",
-  props: ["task"],
+  props: {
+    task: {
+      type: Object as PropType<OneBoardInterface>,
+    },
+  },
   components: { OneTask, CreateModal },
   data() {
     return {
       openCreateModal: false,
-      board: "",
-      name: this.task.name,
-      columns: this.task.columns,
+      board: this.task,
       newColumn: "",
     };
   },
@@ -71,26 +74,26 @@ export default defineComponent({
     },
 
     addCreateModal: function (newColumn: string) {
-      this.columns.push({
-        name: newColumn,
-        tasks: [
-          {
-            title: "",
-            description: "",
-            user: { img: "", name: "" },
-            date: { start: "", end: "" },
-            competitions: "",
-          },
-        ],
-      });
-      this.closeCreateModal();
+      if (this.board !== undefined) {
+        this.board.columns.push({
+          name: newColumn,
+          tasks: [
+            {
+              title: "",
+              description: "",
+              user: { img: "", name: "" },
+              date: { start: "", end: "" },
+              competitions: "",
+            },
+          ],
+        });
+        this.closeCreateModal();
+      }
     },
   },
   watch: {
     task: function () {
-      console.log(this.task);
-      this.name = this.task.name;
-      this.columns = this.task.columns;
+      this.board = this.task;
     },
   },
 });
