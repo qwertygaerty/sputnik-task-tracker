@@ -1,6 +1,6 @@
 <template>
   <div class="details-modal">
-    <div class="details-modal-close" @click="$emit(`closeModal`)">
+    <div class="details-modal-close" @click="$emit(`closeModal`, modalTask)">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="14"
@@ -29,7 +29,7 @@
             type="text"
             class="details-modal-edit-inputs edit-inputs-h1"
             v-model="modalTask.title"
-            oninput="this.parentNode.dataset.replicatedValue = this.value"
+            v-on:focus="autoGrow(this)"
         /></label>
         <p>в колонке <a href="#">Нужно сделать</a></p>
       </div>
@@ -73,7 +73,7 @@
             <label class="grow-wrap">
               <textarea
                 class="details-modal-edit-inputs edit-inputs-textarea"
-                oninput="this.parentNode.dataset.replicatedValue = this.value + 3"
+                v-on:focus="autoGrow(this)"
                 v-model="modalTask.description"
               >
               </textarea>
@@ -184,6 +184,12 @@ export default defineComponent({
     return {
       modalTask: this.oneTask,
     };
+  },
+  methods: {
+    autoGrow(elem: any) {
+      console.log(elem);
+      elem.height = elem.scrollHeight + "px";
+    },
   },
 });
 </script>
@@ -383,5 +389,11 @@ export default defineComponent({
 .grow-wrap > textarea,
 .grow-wrap::after {
   grid-area: 1 / 1 / 2 / 2;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  .edit-inputs-textarea {
+    width: auto;
+  }
 }
 </style>

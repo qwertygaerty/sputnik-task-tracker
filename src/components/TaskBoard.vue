@@ -17,7 +17,7 @@
           <h2 class="project-column-heading__title">{{ i.name }}</h2>
           <button class="project-column-heading__options"></button>
         </div>
-        <OneTask :tasksOfColumns="i" v-if="i.tasks[0].title"></OneTask>
+        <OneTask :tasksOfColumns="i" v-if="isEmpty(i)"></OneTask>
         <div class="project-column project-column-center">
           <button
             class="project-participants__add project-participants__add--left"
@@ -45,6 +45,7 @@ import OneTask from "@/components/OneTask.vue";
 import CreateModal from "@/components/CreateModal.vue";
 import { defineComponent, PropType } from "vue";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
+import OneTaskInterface from "@/interfaces/OneTaskInterface";
 
 export default defineComponent({
   name: "TaskBoard",
@@ -62,6 +63,12 @@ export default defineComponent({
     };
   },
   methods: {
+    isEmpty: function (i: { name: string; tasks: Array<OneTaskInterface> }) {
+      if (i.tasks[0]) {
+        return !!i.tasks[0].title;
+      } else return false;
+    },
+
     addColumn: function () {
       this.openCreateModal = !this.openCreateModal;
     },

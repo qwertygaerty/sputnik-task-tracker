@@ -44,7 +44,7 @@ export default defineComponent({
                   description:
                     "Написать апи на ларкеНаписать апи на ларкеНаписать апи на ларкеНаписать апи на ларкеНаписать апи на ларке",
                   user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
+                  date: { start: "30.10.2021", end: "30.10.2022" },
                   competitions: "Бекэнд",
                 },
                 {
@@ -52,7 +52,7 @@ export default defineComponent({
                   description:
                     "Сверстать что нибудьСверстать что нибудьСверстать что нибудьСверстать что нибудьСверстать что нибудь",
                   user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
+                  date: { start: "3.10.2022", end: "30.10.2023" },
                   competitions: "Фронтенд",
                 },
                 {
@@ -60,74 +60,24 @@ export default defineComponent({
                   description:
                     "Сделать анализ втупуюСделать анализ втупуюСделать анализ втупуюСделать анализ втупую",
                   user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
+                  date: { start: "30.10.2024", end: "30.10.2025" },
                   competitions: ["Аналитик", "Фронтенд"],
                 },
               ],
             },
             {
               name: "В работе",
-              tasks: [
-                {
-                  title: "Написать апи на ларке",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Бекэнд",
-                },
-                {
-                  title: "Сверстать что нибудь",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Фронтенд",
-                },
-                {
-                  title: "Сделать анализ втупую",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Аналитик",
-                },
-              ],
+              tasks: [],
             },
             {
               name: "Готово",
-              tasks: [
-                {
-                  title: "Написать апи на ларке",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Бекэнд",
-                },
-                {
-                  title: "Сверстать что нибудь",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Фронтенд",
-                },
-                {
-                  title: "Сделать анализ втупую",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Аналитик",
-                },
-              ],
+              tasks: [],
             },
           ],
           users: [
             { img: "red", name: "daniel" },
-            { img: "red", name: "daniel" },
-            { img: "red", name: "daniel" },
+            { img: "blue", name: "ilya" },
+            { img: "purple", name: "masha" },
           ],
         },
         {
