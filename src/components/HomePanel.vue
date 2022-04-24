@@ -21,7 +21,6 @@ export default defineComponent({
   props: {},
   data() {
     return {
-      count: 1,
       board: "",
       newBoard: "",
     };

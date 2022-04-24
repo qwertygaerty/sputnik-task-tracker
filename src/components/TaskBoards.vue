@@ -134,48 +134,6 @@ export default defineComponent({
           name: "Доска 2",
           columns: [
             {
-              name: "Надо сделать",
-              tasks: [
-                {
-                  title: "Сделать анализ втупую",
-                  description:
-                    "Сделать анализ втупуюСделать анализ втупуюСделать анализ втупуюСделать анализ втупую",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: ["Аналитик", "Фронтенд"],
-                },
-              ],
-            },
-            {
-              name: "В работе",
-              tasks: [
-                {
-                  title: "Написать апи на ларке",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Бекэнд",
-                },
-                {
-                  title: "Сверстать что нибудь",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Фронтенд",
-                },
-                {
-                  title: "Сделать анализ втупую",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Аналитик",
-                },
-              ],
-            },
-            {
               name: "Готово",
               tasks: [
                 {

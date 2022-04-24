@@ -17,7 +17,7 @@
           <h2 class="project-column-heading__title">{{ i.name }}</h2>
           <button class="project-column-heading__options"></button>
         </div>
-        <OneTask :tasksOfColumns="i"></OneTask>
+        <OneTask :tasksOfColumns="i" v-if="i.tasks[0].title"></OneTask>
         <div class="project-column project-column-center">
           <button
             class="project-participants__add project-participants__add--left"
@@ -84,6 +84,13 @@ export default defineComponent({
         ],
       });
       this.closeCreateModal();
+    },
+  },
+  watch: {
+    task: function () {
+      console.log(this.task);
+      this.name = this.task.name;
+      this.columns = this.task.columns;
     },
   },
 });
