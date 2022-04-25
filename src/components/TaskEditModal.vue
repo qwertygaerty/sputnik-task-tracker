@@ -1,6 +1,6 @@
 <template>
   <div class="details-modal">
-    <div class="details-modal-close" @click="$emit(`closeModal`, modalTask)">
+    <div class="details-modal-close" @click="closeModal">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="14"
@@ -187,8 +187,16 @@ export default defineComponent({
   },
   methods: {
     autoGrow(elem: any) {
-      console.log(elem);
       elem.height = elem.scrollHeight + "px";
+    },
+    closeModal() {
+      if (this.modalTask !== undefined) {
+        this.modalTask.date = {
+          start: "",
+          end: "",
+        };
+      }
+      this.$emit(`closeModal`, this.modalTask);
     },
   },
 });

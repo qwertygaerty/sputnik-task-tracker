@@ -127,10 +127,6 @@ export default defineComponent({
     getBoard: function (name: string) {
       console.log(name);
     },
-    createBoard: function (Board: string) {
-      console.log(Board);
-    },
-
     openModal() {
       this.openCreateModal = !this.openCreateModal;
     },

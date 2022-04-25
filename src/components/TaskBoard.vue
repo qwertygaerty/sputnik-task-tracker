@@ -38,6 +38,12 @@
     @closeModal="closeCreateModal"
     @openModal="addCreateModal"
   ></CreateModal>
+
+  <TaskEditModal
+    v-if="openCreateTask"
+    :oneTask="oneTask"
+    @closeModal="closeTaskModal"
+  ></TaskEditModal>
 </template>
 
 <script lang="ts">
@@ -46,6 +52,8 @@ import CreateModal from "@/components/CreateModal.vue";
 import { defineComponent, PropType } from "vue";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
 import OneTaskInterface from "@/interfaces/OneTaskInterface";
+import OneColumnInterface from "@/interfaces/OneColumnInterface";
+import TaskEditModal from "@/components/TaskEditModal.vue";
 
 export default defineComponent({
   name: "TaskBoard",
@@ -54,12 +62,16 @@ export default defineComponent({
       type: Object as PropType<OneBoardInterface>,
     },
   },
-  components: { OneTask, CreateModal },
+  components: { OneTask, CreateModal, TaskEditModal },
   data() {
     return {
       openCreateModal: false,
+      openCreateTask: false,
       board: this.task,
-      newColumn: "",
+      newColumn: {
+        type: Object as PropType<OneColumnInterface>,
+      },
+      oneTask: Object as () => OneTaskInterface,
     };
   },
   methods: {
@@ -72,8 +84,17 @@ export default defineComponent({
     addColumn: function () {
       this.openCreateModal = !this.openCreateModal;
     },
-    addCard: function (column: unknown) {
-      console.log(column);
+    addCard: function () {
+      this.openCreateTask = !this.openCreateTask;
+    },
+
+    closeTaskModal: function (task: any) {
+      this.oneTask = task;
+      if (this.board !== undefined) {
+        this.board.columns[0].tasks.push(this.oneTask);
+        console.log(this.board.columns[0].tasks);
+      }
+      this.openCreateTask = false;
     },
 
     closeCreateModal() {
