@@ -77,9 +77,7 @@ export default defineComponent({
   },
   methods: {
     isEmpty: function (i: { name: string; tasks: Array<OneTaskInterface> }) {
-      if (i.tasks[0]) {
-        return i.tasks[0].title;
-      } else return false;
+      return i.tasks[0];
     },
 
     addColumn: function () {
@@ -91,7 +89,7 @@ export default defineComponent({
       this.openCreateTask = !this.openCreateTask;
     },
 
-    closeTaskModal: function (task: any) {
+    closeTaskModal: function (task: () => OneTaskInterface) {
       this.oneTask = task;
       if (this.board !== undefined) {
         let num = this.getColumnNumber(this.indexOfTask);
@@ -109,15 +107,7 @@ export default defineComponent({
       if (this.board !== undefined) {
         this.board.columns.push({
           name: newColumn,
-          tasks: [
-            {
-              title: "",
-              description: "",
-              user: { img: "", name: "" },
-              date: { start: "", end: "" },
-              competitions: "",
-            },
-          ],
+          tasks: [],
         });
         this.closeCreateModal();
       }
