@@ -72,27 +72,31 @@ export default defineComponent({
         type: Object as PropType<OneColumnInterface>,
       },
       oneTask: Object as () => OneTaskInterface,
+      indexOfTask: Object as () => OneColumnInterface,
     };
   },
   methods: {
     isEmpty: function (i: { name: string; tasks: Array<OneTaskInterface> }) {
       if (i.tasks[0]) {
-        return !!i.tasks[0].title;
+        return i.tasks[0].title;
       } else return false;
     },
 
     addColumn: function () {
       this.openCreateModal = !this.openCreateModal;
     },
-    addCard: function () {
+    addCard: function (num: () => OneColumnInterface) {
+      console.log(num);
+      this.indexOfTask = num;
       this.openCreateTask = !this.openCreateTask;
     },
 
     closeTaskModal: function (task: any) {
       this.oneTask = task;
       if (this.board !== undefined) {
-        this.board.columns[0].tasks.push(this.oneTask);
-        console.log(this.board.columns[0].tasks);
+        let num = this.getColumnNumber(this.indexOfTask);
+        console.log(num);
+        this.board.columns[num].tasks.push(this.oneTask);
       }
       this.openCreateTask = false;
     },
@@ -117,6 +121,13 @@ export default defineComponent({
         });
         this.closeCreateModal();
       }
+    },
+
+    getColumnNumber: function (column: () => OneColumnInterface) {
+      if (this.board !== undefined) {
+        return this.board.columns.findIndex((i) => i.name === column.name);
+      }
+      return 0;
     },
   },
   watch: {
