@@ -1,6 +1,10 @@
 <template>
   <div class="details-modal">
-    <div class="details-modal-close" @click="closeModal">
+    <div
+      class="details-modal-close"
+      @click="closeModal"
+      v-show="!failedValidation"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="14"
@@ -24,8 +28,14 @@
       </svg>
 
       <div class="details-modal-title-text">
-        <label
-          ><input
+        <p
+          class="task__tag task__tag--validation-message"
+          v-if="!validator(modalTask.title)"
+        >
+          {{ `Введите имя` }}
+        </p>
+        <label>
+          <input
             type="text"
             class="details-modal-edit-inputs edit-inputs-h1"
             v-model="modalTask.title"
@@ -80,6 +90,12 @@
 
       <div class="details-modal-content">
         <div class="details-modal-title-text">
+          <p
+            class="task__tag task__tag--validation-message"
+            v-if="!validator(modalTask.description)"
+          >
+            {{ `Введите Описание` }}
+          </p>
           <p>
             <label class="grow-wrap">
               <textarea
@@ -196,6 +212,9 @@ export default defineComponent({
     return {
       modalTask: this.oneTask,
       date: this.oneTask?.date || { start: "", end: "" },
+      failedValidation: false,
+      // massValidations: [{}],
+      // idValidation: 0,
     };
   },
   methods: {
@@ -207,6 +226,19 @@ export default defineComponent({
         this.modalTask.date = this.date;
       }
       this.$emit(`closeModal`, this.modalTask);
+    },
+
+    validator(data: boolean) {
+      // this.failedValidation = this.massValidations.length > 0;
+
+      if (data) {
+        // this.massValidations.splice(this.idValidation, 1);
+        // this.idValidation--;
+        return true;
+      } else {
+        // this.massValidations.push({ id: this.idValidation, bool: false });
+        return false;
+      }
     },
   },
 });
@@ -412,6 +444,13 @@ export default defineComponent({
 .grow-wrap > textarea,
 .grow-wrap::after {
   grid-area: 1 / 1 / 2 / 2;
+}
+
+.task__tag--validation-message {
+  color: #ff4d4d;
+  border-radius: 1rem 1rem 0 0;
+  background-color: #ffe6e6;
+  text-align: center;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
