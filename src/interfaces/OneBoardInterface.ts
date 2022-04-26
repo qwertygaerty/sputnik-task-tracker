@@ -1,8 +1,7 @@
-import OneTaskInterface from "@/interfaces/OneTaskInterface";
-import OneColumnInterface from "@/interfaces/OneColumnInterface";
+import ColumnsInterface from "@/interfaces/ColumnsInterface";
 
 export default interface OneBoardInterface {
   name: string;
-  columns: Array<OneColumnInterface>;
+  columns: ColumnsInterface;
   users: any;
 }

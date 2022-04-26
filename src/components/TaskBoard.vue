@@ -69,27 +69,25 @@ export default defineComponent({
       openCreateTask: false,
       board: this.task,
       newColumn: {
-        type: Object as PropType<OneColumnInterface>,
+        type: {} as OneColumnInterface,
       },
-      oneTask: Object as () => OneTaskInterface,
-      indexOfTask: Object as () => OneColumnInterface,
+      oneTask: {} as OneTaskInterface,
+      indexOfTask: {} as OneColumnInterface,
     };
   },
   methods: {
-    isEmpty: function (i: { name: string; tasks: Array<OneTaskInterface> }) {
+    isEmpty: function (i: OneColumnInterface) {
       return i.tasks[0];
     },
-
     addColumn: function () {
       this.openCreateModal = !this.openCreateModal;
     },
-    addCard: function (num: () => OneColumnInterface) {
+    addCard: function (num: OneColumnInterface) {
       console.log(num);
       this.indexOfTask = num;
       this.openCreateTask = !this.openCreateTask;
     },
-
-    closeTaskModal: function (task: () => OneTaskInterface) {
+    closeTaskModal: function (task: OneTaskInterface) {
       this.oneTask = task;
       if (this.board !== undefined) {
         let num = this.getColumnNumber(this.indexOfTask);
@@ -113,7 +111,7 @@ export default defineComponent({
       }
     },
 
-    getColumnNumber: function (column: () => OneColumnInterface) {
+    getColumnNumber: function (column: OneColumnInterface) {
       if (this.board !== undefined) {
         return this.board.columns.findIndex((i) => i.name === column.name);
       }

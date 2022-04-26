@@ -21,13 +21,13 @@ export default defineComponent({
   props: {},
   data() {
     return {
-      board: Object as PropType<OneBoardInterface>,
+      board: {} as OneBoardInterface,
       newBoard: "",
     };
   },
 
   methods: {
-    getBoardTask: function (item: PropType<OneBoardInterface>) {
+    getBoardTask: function (item: OneBoardInterface) {
       this.board = item;
     },
   },

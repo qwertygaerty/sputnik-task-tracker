@@ -22,11 +22,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
 import CreateModal from "@/components/CreateModal.vue";
+import OneBoardInterface from "@/interfaces/OneBoardInterface";
 
 export default defineComponent({
-  props: ["Board"],
+  props: {
+    Board: {
+      type: Object as PropType<OneBoardInterface>,
+    },
+  },
   name: "TaskBoards",
   emits: ["getBoard"],
   components: { CreateModal },
@@ -80,45 +85,6 @@ export default defineComponent({
             { img: "purple", name: "masha" },
           ],
         },
-        {
-          name: "Доска 2",
-          columns: [
-            {
-              name: "Готово",
-              tasks: [
-                {
-                  title: "Написать апи на ларке",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Бекэнд",
-                },
-                {
-                  title: "Сверстать что нибудь",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Фронтенд",
-                },
-                {
-                  title: "Сделать анализ втупую",
-                  description:
-                    "https://github.com/qwertygaerty/sputnik-task-tracker/tree/063dedc04955f103b6c563cf2ca6b0a7aeb8e70a",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2022", end: "30.10.2021" },
-                  competitions: "Аналитик",
-                },
-              ],
-            },
-          ],
-          users: [
-            { img: "red", name: "daniel" },
-            { img: "red", name: "daniel" },
-            { img: "red", name: "daniel" },
-          ],
-        },
       ],
       openCreateModal: false,
     };
@@ -138,44 +104,7 @@ export default defineComponent({
     addCreateModal: function (Board: string) {
       this.boards.push({
         name: Board,
-        columns: [
-          {
-            name: "Надо сделать",
-            tasks: [
-              {
-                title: "",
-                description: "",
-                user: { img: "", name: "" },
-                date: { start: "", end: "" },
-                competitions: "",
-              },
-            ],
-          },
-          {
-            name: "В работе",
-            tasks: [
-              {
-                title: "",
-                description: "",
-                user: { img: "", name: "" },
-                date: { start: "", end: "" },
-                competitions: "",
-              },
-            ],
-          },
-          {
-            name: "Готово",
-            tasks: [
-              {
-                title: "",
-                description: "",
-                user: { img: "", name: "" },
-                date: { start: "", end: "" },
-                competitions: "",
-              },
-            ],
-          },
-        ],
+        columns: [],
         users: [{ img: "", name: "" }],
       });
       this.closeCreateModal();

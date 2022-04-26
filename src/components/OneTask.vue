@@ -58,16 +58,16 @@ export default defineComponent({
     return {
       openTaskModal: false,
       task: this.tasksOfColumns,
-      oneTask: Object as PropType<OneTaskInterface>,
+      oneTask: {} as OneTaskInterface,
     };
   },
   methods: {
-    openModal(task: PropType<OneTaskInterface>) {
+    openModal(task: OneTaskInterface) {
       this.oneTask = task;
       this.openTaskModal = !this.openTaskModal;
     },
 
-    closeModal(task: PropType<OneTaskInterface>) {
+    closeModal(task: OneTaskInterface) {
       this.oneTask = task;
       this.openTaskModal = false;
     },

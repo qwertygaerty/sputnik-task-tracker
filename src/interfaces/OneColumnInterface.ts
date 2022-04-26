@@ -1,6 +1,5 @@
-import OneTaskInterface from "@/interfaces/OneTaskInterface";
-
+import TasksInterface from "./TasksInterface";
 export default interface OneColumnInterface {
   name: string;
-  tasks: [(() => OneTaskInterface) | OneTaskInterface] | (() => OneTaskInterface)[];
+  tasks: TasksInterface;
 }
