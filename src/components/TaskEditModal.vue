@@ -195,10 +195,7 @@ export default defineComponent({
   data() {
     return {
       modalTask: this.oneTask,
-      date: {
-        start: "",
-        end: "",
-      },
+      date: this.oneTask?.date || { start: "", end: "" },
     };
   },
   methods: {

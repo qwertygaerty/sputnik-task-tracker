@@ -49,7 +49,7 @@ export default defineComponent({
                   description:
                     "Написать апи на ларкеНаписать апи на ларкеНаписать апи на ларкеНаписать апи на ларкеНаписать апи на ларке",
                   user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2021", end: "30.10.2022" },
+                  date: { start: "2023-04-05", end: "2024-04-05" },
                   competitions: "Бекэнд",
                 },
                 {
@@ -57,7 +57,7 @@ export default defineComponent({
                   description:
                     "Сверстать что нибудьСверстать что нибудьСверстать что нибудьСверстать что нибудьСверстать что нибудь",
                   user: { img: "red", name: "ilia" },
-                  date: { start: "3.10.2022", end: "30.10.2023" },
+                  date: { start: "2022-04-05", end: "2023-04-05" },
                   competitions: "Фронтенд",
                 },
                 {
@@ -65,7 +65,7 @@ export default defineComponent({
                   description:
                     "Сделать анализ втупуюСделать анализ втупуюСделать анализ втупуюСделать анализ втупую",
                   user: { img: "red", name: "ilia" },
-                  date: { start: "30.10.2024", end: "30.10.2025" },
+                  date: { start: "2022-04-05", end: "2024-04-05" },
                   competitions: ["Аналитик", "Фронтенд"],
                 },
               ],
