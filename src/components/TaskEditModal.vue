@@ -217,6 +217,15 @@ export default defineComponent({
     };
   },
   methods: {
+    reset() {
+      this.modalTask = Object.assign({}, this.oneTask);
+      this.date = Object.assign(
+        {},
+        this.oneTask?.date || { start: "", end: "" }
+      );
+      this.failedValidation = false;
+    },
+
     autoGrow(elem: any) {
       elem.height = elem.scrollHeight + "px";
     },
@@ -224,20 +233,19 @@ export default defineComponent({
       if (this.modalTask !== undefined) {
         this.modalTask.date = this.date;
       }
-      console.log(this.modalTask);
-
       if (!this.isCreateTask) {
-        console.log("close edit");
-        this.$emit(`closeEditModal`, Object.assign({}, this.modalTask));
+        this.$emit(`closeEditModal`, this.modalTask);
       } else {
-        console.log("close create");
-        this.$emit(`closeModal`, Object.assign({}, this.modalTask));
+        this.$emit(`closeModal`, this.modalTask);
       }
     },
 
     validator(data: boolean) {
       return data;
     },
+  },
+  created() {
+    this.reset();
   },
 });
 </script>

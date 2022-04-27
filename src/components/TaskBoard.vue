@@ -89,7 +89,6 @@ export default defineComponent({
       this.openCreateTask = !this.openCreateTask;
     },
     closeTaskModal: function (task: OneTaskInterface) {
-      this.oneTask = task;
       if (this.board !== undefined) {
         let num = this.getColumnNumber(this.indexOfTask);
         console.log(num);

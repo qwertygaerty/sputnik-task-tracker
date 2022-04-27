@@ -75,7 +75,9 @@ export default defineComponent({
     },
 
     closeModal(task: OneTaskInterface) {
-      console.log(task);
+      console.log(this.oneTask);
+      this.oneTask = task;
+
       this.openTaskModal = false;
     },
   },
