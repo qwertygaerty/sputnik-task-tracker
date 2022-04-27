@@ -23,7 +23,12 @@
           ghost-class="ghost-card"
           group="tasks"
         >
-          <OneTask v-for="j in i.tasks" :key="j.title" :task="j"></OneTask>
+          <OneTask
+            v-for="j in i.tasks"
+            :key="j.title"
+            :task="j"
+            @move="chooseTask(this)"
+          ></OneTask>
         </VueDraggableNext>
         <div class="project-column project-column-center">
           <button
@@ -130,7 +135,12 @@ export default defineComponent({
       }
       return 0;
     },
+    chooseTask: function (html: HTMLHtmlElement) {
+      console.log(html);
+      return 0;
+    },
   },
+
   watch: {
     task: function () {
       this.board = this.task;
@@ -253,5 +263,9 @@ export default defineComponent({
     grid-template-columns: 1fr;
     border-bottom: 2px dashed var(--purple);
   }
+}
+
+.ghost-card {
+  transform: rotate(2deg);
 }
 </style>
