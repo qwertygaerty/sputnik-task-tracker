@@ -206,6 +206,7 @@ export default defineComponent({
     oneTask: {
       type: Object as PropType<OneTaskInterface>,
     },
+    isCreateTask: Boolean,
     task: {},
   },
   data() {
@@ -213,8 +214,6 @@ export default defineComponent({
       modalTask: this.oneTask,
       date: this.oneTask?.date || { start: "", end: "" },
       failedValidation: false,
-      // massValidations: [{}],
-      // idValidation: 0,
     };
   },
   methods: {
@@ -225,20 +224,19 @@ export default defineComponent({
       if (this.modalTask !== undefined) {
         this.modalTask.date = this.date;
       }
-      this.$emit(`closeModal`, this.modalTask);
+      console.log(this.modalTask);
+
+      if (!this.isCreateTask) {
+        console.log("close edit");
+        this.$emit(`closeEditModal`, Object.assign({}, this.modalTask));
+      } else {
+        console.log("close create");
+        this.$emit(`closeModal`, Object.assign({}, this.modalTask));
+      }
     },
 
     validator(data: boolean) {
-      // this.failedValidation = this.massValidations.length > 0;
-
-      if (data) {
-        // this.massValidations.splice(this.idValidation, 1);
-        // this.idValidation--;
-        return true;
-      } else {
-        // this.massValidations.push({ id: this.idValidation, bool: false });
-        return false;
-      }
+      return data;
     },
   },
 });

@@ -2,8 +2,9 @@
   <TaskEditModal
     :oneTask="oneTask"
     :task="task.tasks"
+    :isCreateTask="false"
     v-if="openTaskModal"
-    @closeModal="closeModal"
+    @closeEditModal="closeModal"
   ></TaskEditModal>
   <div
     class="task"
@@ -75,7 +76,6 @@ export default defineComponent({
 
     closeModal(task: OneTaskInterface) {
       console.log(task);
-      this.oneTask = task;
       this.openTaskModal = false;
     },
   },

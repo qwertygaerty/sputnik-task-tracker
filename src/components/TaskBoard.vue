@@ -35,13 +35,13 @@
   <CreateModal
     v-if="openCreateModal"
     :input-name="`Новый столбец`"
-    @closeModal="closeCreateModal"
     @openModal="addCreateModal"
   ></CreateModal>
 
   <TaskEditModal
     v-if="openCreateTask"
     :oneTask="oneTask"
+    :isCreateTask="true"
     @closeModal="closeTaskModal"
   ></TaskEditModal>
 </template>
@@ -73,6 +73,7 @@ export default defineComponent({
       },
       oneTask: {} as OneTaskInterface,
       indexOfTask: {} as OneColumnInterface,
+      isCreateTask: true,
     };
   },
   methods: {
@@ -92,7 +93,7 @@ export default defineComponent({
       if (this.board !== undefined) {
         let num = this.getColumnNumber(this.indexOfTask);
         console.log(num);
-        this.board.columns[num].tasks.push(this.oneTask);
+        this.board.columns[num].tasks.push(task);
       }
       this.openCreateTask = false;
     },
