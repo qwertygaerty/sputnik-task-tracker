@@ -17,7 +17,14 @@
           <h2 class="project-column-heading__title">{{ i.name }}</h2>
           <button class="project-column-heading__options"></button>
         </div>
-        <OneTask :tasksOfColumns="i" v-if="isEmpty(i)"></OneTask>
+        <VueDraggableNext
+          :list="i.tasks"
+          :animation="100"
+          ghost-class="ghost-card"
+          group="tasks"
+        >
+          <OneTask v-for="j in i.tasks" :key="j.title" :task="j"></OneTask>
+        </VueDraggableNext>
         <div class="project-column project-column-center">
           <button
             class="project-participants__add project-participants__add--left"
@@ -50,6 +57,7 @@
 import OneTask from "@/components/OneTask.vue";
 import CreateModal from "@/components/CreateModal.vue";
 import { defineComponent, PropType } from "vue";
+import { VueDraggableNext } from "vue-draggable-next";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
 import OneTaskInterface from "@/interfaces/OneTaskInterface";
 import OneColumnInterface from "@/interfaces/OneColumnInterface";
@@ -62,7 +70,12 @@ export default defineComponent({
       type: Object as PropType<OneBoardInterface>,
     },
   },
-  components: { OneTask, CreateModal, TaskEditModal },
+  components: {
+    OneTask,
+    CreateModal,
+    TaskEditModal,
+    VueDraggableNext,
+  },
   data() {
     return {
       openCreateModal: false,
