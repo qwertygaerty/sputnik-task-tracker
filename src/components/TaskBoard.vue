@@ -11,32 +11,42 @@
         <button class="project-participants__add"></button>
       </div>
     </div>
-    <div class="project-tasks">
-      <div class="project-column" v-for="i in board.columns" :key="i">
-        <div class="project-column-heading">
-          <h2 class="project-column-heading__title">{{ i.name }}</h2>
-          <button class="project-column-heading__options"></button>
+    <div class="">
+      <VueDraggableNext
+        :list="board.columns"
+        :animation="100"
+        ghost-class="ghost-card"
+        group="board.columns"
+        @start="startDrag"
+        class="project-tasks"
+      >
+        <div class="project-column" v-for="i in board.columns" :key="i">
+          <div class="project-column-heading">
+            <h2 class="project-column-heading__title">{{ i.name }}</h2>
+            <button class="project-column-heading__options"></button>
+          </div>
+          <VueDraggableNext
+            :list="i.tasks"
+            :animation="100"
+            ghost-class="ghost-card"
+            group="tasks"
+            @start="startDrag"
+          >
+            <OneTask
+              v-for="j in i.tasks"
+              :key="j.title"
+              :task="j"
+              class="drag-and-drop"
+            ></OneTask>
+          </VueDraggableNext>
+          <div class="project-column project-column-center">
+            <button
+              class="project-participants__add project-participants__add--left"
+              @click="addCard(i)"
+            ></button>
+          </div>
         </div>
-        <VueDraggableNext
-          :list="i.tasks"
-          :animation="100"
-          ghost-class="ghost-card"
-          group="tasks"
-        >
-          <OneTask
-            v-for="j in i.tasks"
-            :key="j.title"
-            :task="j"
-            @move="chooseTask(this)"
-          ></OneTask>
-        </VueDraggableNext>
-        <div class="project-column project-column-center">
-          <button
-            class="project-participants__add project-participants__add--left"
-            @click="addCard(i)"
-          ></button>
-        </div>
-      </div>
+      </VueDraggableNext>
 
       <div class="project-column">
         <button class="project-participants__add" @click="addColumn"></button>
@@ -135,8 +145,9 @@ export default defineComponent({
       }
       return 0;
     },
-    chooseTask: function (html: HTMLHtmlElement) {
-      console.log(html);
+
+    startDrag: function (event: CustomEvent) {
+      console.log(event);
       return 0;
     },
   },
@@ -267,5 +278,20 @@ export default defineComponent({
 
 .ghost-card {
   transform: rotate(2deg);
+  cursor: none;
+  opacity: 10%;
+  position: relative;
+  overflow: hidden;
+}
+
+.ghost-card::before {
+  position: absolute;
+  background: var(--tag-4);
+  width: 1000px;
+  height: 90%;
+  content: "";
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 </style>

@@ -86,20 +86,20 @@ export default defineComponent({
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   left: 50%;
   max-width: 90%;
-  position: absolute;
+  position: fixed;
   top: 0;
   transform: translate(-50%, 3%);
   width: 60em;
   text-align: left;
   display: flex;
   flex-direction: column;
-  z-index: 1;
   align-items: flex-start;
   justify-content: flex-start;
   overflow-y: auto;
   height: 95vh;
   overflow-x: hidden;
   -ms-overflow-style: none;
+  z-index: 1000;
 }
 
 .details-modal::-webkit-scrollbar {
