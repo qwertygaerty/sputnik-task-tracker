@@ -97,12 +97,9 @@ export default defineComponent({
     };
   },
   methods: {
-    getBoard: function (name: string) {
-      console.log(name);
-    },
-
     removeBoard: function (board: OneBoardInterface) {
       let index = this.boards.indexOf(board);
+      this.$emit(`getBoard`, this.boards[index] as OneBoardInterface);
       this.boards.splice(index, 1);
     },
 

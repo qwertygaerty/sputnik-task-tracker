@@ -28,7 +28,11 @@ export default defineComponent({
 
   methods: {
     getBoardTask: function (item: OneBoardInterface) {
-      this.board = item;
+      if (this.board == item) {
+        this.board = {} as OneBoardInterface;
+      } else {
+        this.board = item;
+      }
     },
   },
 });
