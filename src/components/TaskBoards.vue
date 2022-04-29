@@ -131,6 +131,7 @@ export default defineComponent({
 
     openModal() {
       this.saveOrCreate = "create";
+      this.createModalMessage = "Новая доска";
       this.openCreateModal = !this.openCreateModal;
     },
 

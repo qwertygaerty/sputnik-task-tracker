@@ -21,9 +21,26 @@
         class="project-tasks"
       >
         <div class="project-column" v-for="i in board.columns" :key="i">
-          <div class="project-column-heading">
-            <h2 class="project-column-heading__title">{{ i.name }}</h2>
-            <button class="project-column-heading__options"></button>
+          <div class="project-column-heading task-boards">
+            <h2 class="project-column-heading__title">
+              {{ i.name }}
+            </h2>
+            <div class="task-boards--edit-panel">
+              <a href="#" class="btn task-remove" @click="editBoard(i)">
+                <svg class="svg-icon" viewBox="0 0 20 20">
+                  <path
+                    d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"
+                  ></path>
+                </svg>
+              </a>
+
+              <a href="#" class="btn task-remove" @click="removeBoard(i)"
+                ><svg class="svg-icon" viewBox="0 0 20 20">
+                  <path
+                    d="M17.114,3.923h-4.589V2.427c0-0.252-0.207-0.459-0.46-0.459H7.935c-0.252,0-0.459,0.207-0.459,0.459v1.496h-4.59c-0.252,0-0.459,0.205-0.459,0.459c0,0.252,0.207,0.459,0.459,0.459h1.51v12.732c0,0.252,0.207,0.459,0.459,0.459h10.29c0.254,0,0.459-0.207,0.459-0.459V4.841h1.511c0.252,0,0.459-0.207,0.459-0.459C17.573,4.127,17.366,3.923,17.114,3.923M8.394,2.886h3.214v0.918H8.394V2.886z M14.686,17.114H5.314V4.841h9.372V17.114z M12.525,7.306v7.344c0,0.252-0.207,0.459-0.46,0.459s-0.458-0.207-0.458-0.459V7.306c0-0.254,0.205-0.459,0.458-0.459S12.525,7.051,12.525,7.306M8.394,7.306v7.344c0,0.252-0.207,0.459-0.459,0.459s-0.459-0.207-0.459-0.459V7.306c0-0.254,0.207-0.459,0.459-0.459S8.394,7.051,8.394,7.306"
+                  ></path></svg
+              ></a>
+            </div>
           </div>
           <VueDraggableNext
             :list="i.tasks"
@@ -56,9 +73,11 @@
 
   <CreateModal
     v-if="openCreateModal"
-    :input-name="`Новый столбец ` + this.columnNumber"
+    :input-name="createModalMessage"
+    :saveOrCreate="saveOrCreate"
     @closeEditCreateModal="addCreateModal"
     @closeCreateModal="closeCreateModal"
+    @closeSaveCreateModal="saveModal"
   ></CreateModal>
 
   <TaskEditModal
@@ -104,6 +123,9 @@ export default defineComponent({
       indexOfTask: {} as OneColumnInterface,
       isCreateTask: true,
       columnNumber: 0,
+      createModalMessage: "Новый столбец",
+      saveOrCreate: "create",
+      tempColumn: {} as OneColumnInterface,
     };
   },
   methods: {
@@ -112,6 +134,8 @@ export default defineComponent({
     },
     addColumn: function () {
       this.columnNumber++;
+      this.createModalMessage = "Новый столбец " + this.columnNumber;
+      this.saveOrCreate = "create";
       this.openCreateModal = !this.openCreateModal;
     },
     addCard: function (num: OneColumnInterface) {
@@ -152,6 +176,25 @@ export default defineComponent({
     startDrag: function (event: CustomEvent) {
       console.log(event);
       return 0;
+    },
+
+    removeBoard: function (column: OneColumnInterface) {
+      if (this.board != undefined) {
+        let index = this.board.columns.indexOf(column);
+        this.board.columns.splice(index, 1);
+      }
+    },
+
+    editBoard: function (column: OneColumnInterface) {
+      this.createModalMessage = column.name;
+      this.saveOrCreate = "save";
+      this.openCreateModal = !this.openCreateModal;
+      this.tempColumn = column;
+    },
+
+    saveModal: function (column: string) {
+      this.tempColumn.name = column;
+      this.closeCreateModal();
     },
   },
 
@@ -252,11 +295,13 @@ export default defineComponent({
 }
 
 .project-column-heading__options {
-  background: transparent;
+  background: red;
   color: var(--light-grey);
   font-size: 18px;
   border: 0;
   cursor: pointer;
+  width: 10px;
+  height: 10px;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
@@ -296,5 +341,24 @@ export default defineComponent({
   top: 0;
   left: 0;
   z-index: 1000;
+}
+
+.task-remove {
+  width: 30px;
+  height: 30px;
+  border-radius: 100rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  visibility: hidden;
+  align-self: flex-end;
+}
+
+.task-boards {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px dashed transparent;
 }
 </style>
