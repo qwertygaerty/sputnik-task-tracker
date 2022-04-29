@@ -2,11 +2,17 @@
   <div class="task-activity">
     <h2>Мои доски</h2>
     <ul>
-      <li v-for="i in boards" :key="i">
+      <li v-for="i in boards" :key="i" class="task-boards hover-bottom-border">
         <span class="task-icon task-icon--edit"></span>
         <b class="task-highlight" @click="$emit(`getBoard`, i)">{{ i.name }}</b>
+        <a href="#" class="btn task-remove" @click="removeBoard(i)"
+          ><svg class="svg-icon" viewBox="0 0 20 20">
+            <path
+              d="M17.114,3.923h-4.589V2.427c0-0.252-0.207-0.459-0.46-0.459H7.935c-0.252,0-0.459,0.207-0.459,0.459v1.496h-4.59c-0.252,0-0.459,0.205-0.459,0.459c0,0.252,0.207,0.459,0.459,0.459h1.51v12.732c0,0.252,0.207,0.459,0.459,0.459h10.29c0.254,0,0.459-0.207,0.459-0.459V4.841h1.511c0.252,0,0.459-0.207,0.459-0.459C17.573,4.127,17.366,3.923,17.114,3.923M8.394,2.886h3.214v0.918H8.394V2.886z M14.686,17.114H5.314V4.841h9.372V17.114z M12.525,7.306v7.344c0,0.252-0.207,0.459-0.46,0.459s-0.458-0.207-0.458-0.459V7.306c0-0.254,0.205-0.459,0.458-0.459S12.525,7.051,12.525,7.306M8.394,7.306v7.344c0,0.252-0.207,0.459-0.459,0.459s-0.459-0.207-0.459-0.459V7.306c0-0.254,0.207-0.459,0.459-0.459S8.394,7.051,8.394,7.306"
+            ></path></svg
+        ></a>
       </li>
-      <li>
+      <li class="task-boards">
         <span class="task-icon task-icon--edit"></span>
         <a href="#" class="btn" @click="openModal">Добавить..</a>
       </li>
@@ -25,6 +31,7 @@
 import { defineComponent, PropType } from "vue";
 import CreateModal from "@/components/CreateModal.vue";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
+import BoardsInterface from "@/interfaces/BoardsInterface";
 
 export default defineComponent({
   props: {
@@ -85,7 +92,7 @@ export default defineComponent({
             { img: "purple", name: "masha" },
           ],
         },
-      ],
+      ] as BoardsInterface,
       openCreateModal: false,
     };
   },
@@ -93,6 +100,12 @@ export default defineComponent({
     getBoard: function (name: string) {
       console.log(name);
     },
+
+    removeBoard: function (board: OneBoardInterface) {
+      let index = this.boards.indexOf(board);
+      this.boards.splice(index, 1);
+    },
+
     openModal() {
       this.openCreateModal = !this.openCreateModal;
     },
@@ -113,4 +126,39 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.task-remove {
+  width: 30px;
+  height: 30px;
+  border-radius: 100rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  visibility: hidden;
+}
+
+.task-remove svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.task-boards {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px dashed transparent;
+}
+
+.hover-bottom-border {
+  transition: 0.1s;
+}
+
+.hover-bottom-border:hover {
+  border-bottom: 2px dashed var(--purple);
+}
+
+.task-boards:hover .task-remove {
+  visibility: visible;
+}
+</style>
