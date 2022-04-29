@@ -355,10 +355,32 @@ export default defineComponent({
   align-self: flex-end;
 }
 
+.task-remove svg {
+  width: 1rem;
+  height: 1rem;
+}
+
 .task-boards {
   display: flex;
   align-items: center;
   justify-content: space-between;
   border-bottom: 2px dashed transparent;
+}
+
+.hover-bottom-border {
+  transition: 0.1s;
+}
+
+.hover-bottom-border:hover {
+  border-bottom: 2px dashed var(--purple);
+}
+
+.task-boards:hover .task-remove {
+  visibility: visible;
+}
+
+.task-boards--edit-panel {
+  display: flex;
+  gap: 1rem;
 }
 </style>
