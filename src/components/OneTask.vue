@@ -6,7 +6,12 @@
       v-if="openTaskModal"
       @closeEditModal="closeModal"
     ></TaskEditModal>
-    <div class="task" draggable="true" @click="openModal(taskData)">
+    <div
+      class="task"
+      draggable="true"
+      @contextmenu="onContextMenu($event)"
+      @click="openModal(taskData)"
+    >
       <div class="task__tags">
         <span
           class="task__tag task__tag--copyright"
@@ -49,7 +54,6 @@
 import { defineComponent, PropType } from "vue";
 import TaskEditModal from "@/components/TaskEditModal.vue";
 import OneTaskInterface from "@/interfaces/OneTaskInterface";
-import { VueDraggableNext } from "vue-draggable-next";
 
 export default defineComponent({
   name: "OneTask",
@@ -76,11 +80,43 @@ export default defineComponent({
       this.taskData = task;
       this.openTaskModal = false;
     },
+    onContextMenu(e: MouseEvent) {
+      //prevent the browser's default menu
+      e.preventDefault();
+      //shou our menu
+      this.$contextmenu({
+        x: e.x,
+        y: e.y,
+        items: [
+          {
+            label: "Изменить",
+            icon: "icon-edit",
+            onClick: () => {
+              if (this.taskData) {
+                this.openModal(this.taskData);
+              }
+            },
+          },
+          {
+            label: "Удалить",
+            icon: "icon-delete",
+            onClick: () => {
+              this.$el.parentNode.removeChild(this.$el);
+            },
+          },
+        ],
+        iconFontClass: "iconfont",
+      });
+    },
   },
 });
 </script>
 
 <style scoped>
+.svg-icon {
+  width: 1rem;
+}
+
 .task {
   cursor: move;
   background-color: var(--white);

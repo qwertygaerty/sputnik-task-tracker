@@ -245,6 +245,7 @@ export default defineComponent({
 
 .project-column-heading__title {
   font-size: 20px;
+  cursor: pointer;
 }
 
 .project-column-heading__options {
@@ -277,7 +278,6 @@ export default defineComponent({
 }
 
 .ghost-card {
-  transform: rotate(2deg);
   cursor: none;
   opacity: 10%;
   position: relative;
@@ -286,7 +286,7 @@ export default defineComponent({
 
 .ghost-card::before {
   position: absolute;
-  background: var(--tag-4);
+  background: var(--tag-4-text);
   width: 1000px;
   height: 90%;
   content: "";
