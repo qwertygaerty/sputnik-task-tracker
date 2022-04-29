@@ -57,7 +57,8 @@
   <CreateModal
     v-if="openCreateModal"
     :input-name="`Новый столбец ` + this.columnNumber"
-    @openModal="addCreateModal"
+    @closeEditCreateModal="addCreateModal"
+    @closeCreateModal="closeCreateModal"
   ></CreateModal>
 
   <TaskEditModal

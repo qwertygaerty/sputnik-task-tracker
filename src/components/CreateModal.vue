@@ -1,6 +1,6 @@
 <template>
   <div class="details-modal details-modal-create-task">
-    <div class="details-modal-close" @click="$emit(`closeModal`, boardName)">
+    <div class="details-modal-close" @click="closeModal">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="14"
@@ -24,9 +24,10 @@
             class="details-modal-edit-inputs edit-inputs-h1"
             v-model="boardName"
         /></label>
-        <a href="#" class="btn" @click="$emit('openModal', boardName)"
-          >Добавить</a
-        >
+        <a href="#" class="btn" @click="closeWithEdit">
+          <template v-if="saveOrCreate === 'save'">Сохранить</template>
+          <template v-else>Добавить</template>
+        </a>
       </div>
     </div>
   </div>
@@ -37,14 +38,29 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "CreateModal",
-  props: { inputName: String },
+  props: { inputName: String, saveOrCreate: String },
   data() {
     return {
       boardName: this.inputName,
     };
   },
 
-  methods: {},
+  methods: {
+    closeModal: function () {
+      if (this.saveOrCreate === "save") {
+        this.$emit(`closeEditModal`, this.boardName);
+      } else {
+        this.$emit(`closeCreateModal`, this.boardName);
+      }
+    },
+    closeWithEdit: function () {
+      if (this.saveOrCreate === "save") {
+        this.$emit("closeSaveCreateModal", this.boardName);
+      } else {
+        this.$emit(`closeEditCreateModal`, this.boardName);
+      }
+    },
+  },
 });
 </script>
 

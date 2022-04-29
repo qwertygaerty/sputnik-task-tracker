@@ -6,7 +6,7 @@
         <span class="task-icon task-icon--edit"></span>
         <b class="task-highlight" @click="openTaskBoard(i)">{{ i.name }}</b>
         <div class="task-boards--edit-panel">
-          <a href="#" class="btn task-remove" @click="removeBoard(i)">
+          <a href="#" class="btn task-remove" @click="editBoard(i)">
             <svg class="svg-icon" viewBox="0 0 20 20">
               <path
                 d="M18.303,4.742l-1.454-1.455c-0.171-0.171-0.475-0.171-0.646,0l-3.061,3.064H2.019c-0.251,0-0.457,0.205-0.457,0.456v9.578c0,0.251,0.206,0.456,0.457,0.456h13.683c0.252,0,0.457-0.205,0.457-0.456V7.533l2.144-2.146C18.481,5.208,18.483,4.917,18.303,4.742 M15.258,15.929H2.476V7.263h9.754L9.695,9.792c-0.057,0.057-0.101,0.13-0.119,0.212L9.18,11.36h-3.98c-0.251,0-0.457,0.205-0.457,0.456c0,0.253,0.205,0.456,0.457,0.456h4.336c0.023,0,0.899,0.02,1.498-0.127c0.312-0.077,0.55-0.137,0.55-0.137c0.08-0.018,0.155-0.059,0.212-0.118l3.463-3.443V15.929z M11.241,11.156l-1.078,0.267l0.267-1.076l6.097-6.091l0.808,0.808L11.241,11.156z"
@@ -31,9 +31,12 @@
 
   <CreateModal
     v-if="openCreateModal"
-    :input-name="`Новая доска`"
-    @closeModal="closeCreateModal"
-    @openModal="addCreateModal"
+    :input-name="createModalMessage"
+    :saveOrCreate="saveOrCreate"
+    @closeCreateModal="closeCreateModal"
+    @closeEditModal="closeCreateModal"
+    @closeEditCreateModal="addCreateModal"
+    @closeSaveCreateModal="saveModal"
   ></CreateModal>
 </template>
 
@@ -105,6 +108,9 @@ export default defineComponent({
       ] as BoardsInterface,
       openCreateModal: false,
       openOneBoard: false,
+      createModalMessage: "Новая доска",
+      saveOrCreate: "create",
+      tempBoard: {} as OneBoardInterface,
     };
   },
   methods: {
@@ -116,12 +122,25 @@ export default defineComponent({
       this.boards.splice(index, 1);
     },
 
+    editBoard: function (board: OneBoardInterface) {
+      this.createModalMessage = board.name;
+      this.saveOrCreate = "save";
+      this.openCreateModal = !this.openCreateModal;
+      this.tempBoard = board;
+    },
+
     openModal() {
+      this.saveOrCreate = "create";
       this.openCreateModal = !this.openCreateModal;
     },
 
     closeCreateModal() {
       this.openCreateModal = false;
+    },
+
+    saveModal: function (Board: string) {
+      this.tempBoard.name = Board;
+      this.closeCreateModal();
     },
 
     addCreateModal: function (Board: string) {
