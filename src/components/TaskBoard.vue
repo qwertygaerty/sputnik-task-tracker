@@ -56,7 +56,7 @@
 
   <CreateModal
     v-if="openCreateModal"
-    :input-name="`Новый столбец`"
+    :input-name="`Новый столбец ` + this.columnNumber"
     @openModal="addCreateModal"
   ></CreateModal>
 
@@ -102,6 +102,7 @@ export default defineComponent({
       oneTask: {} as OneTaskInterface,
       indexOfTask: {} as OneColumnInterface,
       isCreateTask: true,
+      columnNumber: 0,
     };
   },
   methods: {
@@ -109,6 +110,7 @@ export default defineComponent({
       return i.tasks[0];
     },
     addColumn: function () {
+      this.columnNumber++;
       this.openCreateModal = !this.openCreateModal;
     },
     addCard: function (num: OneColumnInterface) {
