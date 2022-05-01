@@ -2,6 +2,11 @@
   <main class="project">
     <div class="project-info">
       <h1>{{ board.name }}</h1>
+
+      <div class="project-column">
+        <a href="#" class="btn" @click="addColumn">Добавить столбец</a>
+      </div>
+
       <div class="project-participants">
         <span></span>
         <span></span>
@@ -17,10 +22,13 @@
         :animation="100"
         ghost-class="ghost-card"
         group="board.columns"
-        @start="startDrag"
         class="project-tasks"
       >
-        <div class="project-column" v-for="i in board.columns" :key="i">
+        <div
+          class="project-column tasks-column"
+          v-for="i in board.columns"
+          :key="i"
+        >
           <div class="project-column-heading task-boards">
             <h2 class="project-column-heading__title">
               {{ i.name }}
@@ -40,6 +48,12 @@
                     d="M17.114,3.923h-4.589V2.427c0-0.252-0.207-0.459-0.46-0.459H7.935c-0.252,0-0.459,0.207-0.459,0.459v1.496h-4.59c-0.252,0-0.459,0.205-0.459,0.459c0,0.252,0.207,0.459,0.459,0.459h1.51v12.732c0,0.252,0.207,0.459,0.459,0.459h10.29c0.254,0,0.459-0.207,0.459-0.459V4.841h1.511c0.252,0,0.459-0.207,0.459-0.459C17.573,4.127,17.366,3.923,17.114,3.923M8.394,2.886h3.214v0.918H8.394V2.886z M14.686,17.114H5.314V4.841h9.372V17.114z M12.525,7.306v7.344c0,0.252-0.207,0.459-0.46,0.459s-0.458-0.207-0.458-0.459V7.306c0-0.254,0.205-0.459,0.458-0.459S12.525,7.051,12.525,7.306M8.394,7.306v7.344c0,0.252-0.207,0.459-0.459,0.459s-0.459-0.207-0.459-0.459V7.306c0-0.254,0.207-0.459,0.459-0.459S8.394,7.051,8.394,7.306"
                   ></path></svg
               ></a>
+
+              <a
+                href="#"
+                class="task-remove project-participants__add"
+                @click="addCard(i)"
+              ></a>
             </div>
           </div>
           <VueDraggableNext
@@ -47,7 +61,8 @@
             :animation="100"
             ghost-class="ghost-card"
             group="tasks"
-            @start="startDrag"
+            @start="flipDrag"
+            @end="flipDrag"
           >
             <OneTask
               v-for="j in i.tasks"
@@ -56,18 +71,8 @@
               class="drag-and-drop"
             ></OneTask>
           </VueDraggableNext>
-          <div class="project-column project-column-center">
-            <button
-              class="project-participants__add project-participants__add--left"
-              @click="addCard(i)"
-            ></button>
-          </div>
         </div>
       </VueDraggableNext>
-
-      <div class="project-column">
-        <button class="project-participants__add" @click="addColumn"></button>
-      </div>
     </div>
   </main>
 
@@ -173,8 +178,14 @@ export default defineComponent({
       return 0;
     },
 
-    startDrag: function (event: CustomEvent) {
+    flipDrag: function (event: CustomEvent) {
       console.log(event);
+      let massOfEl = Array.from(document.getElementsByTagName("div"));
+      massOfEl.forEach((el) => {
+        if (el.getAttribute("animation") === "100") {
+          el.classList.toggle("min-height-40");
+        }
+      });
       return 0;
     },
 
@@ -302,6 +313,10 @@ export default defineComponent({
   cursor: pointer;
   width: 10px;
   height: 10px;
+}
+
+.min-height-40 {
+  min-height: 40rem;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
