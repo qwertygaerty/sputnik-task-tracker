@@ -45,6 +45,12 @@ export default defineComponent({
     },
     saveOrCreate: { type: String, default: "create" },
   },
+  emits: [
+    "close-edit-modal",
+    "close-create-modal",
+    "close-save-create-modal",
+    "close-edit-create-modal",
+  ],
   data() {
     return {
       boardName: this.inputName,

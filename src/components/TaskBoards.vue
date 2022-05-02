@@ -54,7 +54,7 @@ export default defineComponent({
     },
   },
   name: "TaskBoards",
-  emits: ["getBoard"],
+  emits: ["get-board"],
   components: { CreateModal },
   data() {
     return {
@@ -118,7 +118,7 @@ export default defineComponent({
     removeBoard: function (board: OneBoardInterface) {
       let index = this.boards.indexOf(board);
       if (this.openOneBoard) {
-        this.$emit(`getBoard`, this.boards[index] as OneBoardInterface);
+        this.$emit(`get-board`, this.boards[index] as OneBoardInterface);
       }
       this.boards.splice(index, 1);
     },
@@ -154,7 +154,7 @@ export default defineComponent({
       this.closeCreateModal();
     },
     openTaskBoard: function (Board: OneBoardInterface) {
-      this.$emit("getBoard", Board);
+      this.$emit("get-board", Board);
       this.openOneBoard = true;
     },
   },

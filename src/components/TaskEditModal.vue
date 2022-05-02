@@ -212,6 +212,7 @@ export default defineComponent({
       default: true,
     },
   },
+  emits: ["close-edit-modal", "close-modal"],
   data() {
     return {
       modalTask: this.oneTask,
@@ -237,9 +238,9 @@ export default defineComponent({
         this.modalTask.date = this.date;
       }
       if (!this.isCreateTask) {
-        this.$emit(`closeEditModal`, this.modalTask);
+        this.$emit(`close-edit-modal`, this.modalTask);
       } else {
-        this.$emit(`closeModal`, this.modalTask);
+        this.$emit(`close-modal`, this.modalTask);
       }
     },
 
