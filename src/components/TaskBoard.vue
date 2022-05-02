@@ -105,6 +105,7 @@ export default defineComponent({
   props: {
     task: {
       type: Object as PropType<OneBoardInterface>,
+      default: Object as PropType<OneBoardInterface>,
     },
   },
   components: {
@@ -217,7 +218,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .project {
   padding: 0 2rem;
   max-width: 75%;
@@ -236,6 +237,7 @@ export default defineComponent({
 .project-participants {
   display: flex;
   align-items: center;
+  font-family: "Poppins", sans-serif;
 }
 
 .project-participants span,
@@ -246,6 +248,7 @@ export default defineComponent({
   background: var(--purple);
   border-radius: 100rem;
   margin: 0 0.2rem;
+  font-family: "Poppins", sans-serif;
 }
 
 .project-participants__add {
@@ -255,29 +258,30 @@ export default defineComponent({
   cursor: pointer;
   position: relative;
   overflow: hidden;
+  font-family: "Poppins", sans-serif;
+  &::after {
+    color: #969696;
+    font-size: 1.3rem;
+    width: 100%;
+    height: 100%;
+    content: "+";
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    transition: background-color, color 0.3s;
+    font-family: "Poppins", sans-serif;
+  }
+  &:hover::after {
+    background: var(--purple);
+    color: white;
+  }
 }
 
 .project-participants__add--left {
   margin-bottom: 1rem;
-}
-
-.project-participants__add::after {
-  color: #969696;
-  font-size: 1.3rem;
-  width: 100%;
-  height: 100%;
-  content: "+";
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  transition: background-color, color 0.3s;
-}
-.project-participants__add:hover::after {
-  background: var(--purple);
-  color: white;
 }
 
 .project-tasks {
@@ -345,17 +349,16 @@ export default defineComponent({
   opacity: 10%;
   position: relative;
   overflow: hidden;
-}
-
-.ghost-card::before {
-  position: absolute;
-  background: var(--tag-4-text);
-  width: 1000px;
-  height: 90%;
-  content: "";
-  top: 0;
-  left: 0;
-  z-index: 1000;
+  &::before {
+    position: absolute;
+    background: var(--tag-4-text);
+    width: 1000px;
+    height: 90%;
+    content: "";
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
 }
 
 .task-remove {
@@ -368,11 +371,10 @@ export default defineComponent({
   padding: 0;
   visibility: hidden;
   align-self: flex-end;
-}
-
-.task-remove svg {
-  width: 1rem;
-  height: 1rem;
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
 }
 
 .task-boards {
@@ -380,18 +382,16 @@ export default defineComponent({
   align-items: center;
   justify-content: space-between;
   border-bottom: 2px dashed transparent;
+  &:hover .task-remove {
+    visibility: visible;
+  }
 }
 
 .hover-bottom-border {
   transition: 0.1s;
-}
-
-.hover-bottom-border:hover {
-  border-bottom: 2px dashed var(--purple);
-}
-
-.task-boards:hover .task-remove {
-  visibility: visible;
+  &:hover {
+    border-bottom: 2px dashed var(--purple);
+  }
 }
 
 .task-boards--edit-panel {

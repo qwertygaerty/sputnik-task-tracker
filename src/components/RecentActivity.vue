@@ -50,62 +50,60 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .tag-progress {
   margin: 1.5rem 0;
-}
-
-.tag-progress h2 {
-  font-size: 18px;
-  margin-bottom: 1rem;
-}
-
-.tag-progress p {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-
-.tag-progress p span {
-  color: #b4b4b4;
-}
-
-.tag-progress .progress {
-  width: 100%;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border: none;
-  border-radius: 10px;
-  height: 10px;
-}
-
-.tag-progress .progress::-webkit-progress-bar,
-.tag-progress .progress::-webkit-progress-value {
-  border-radius: 10px;
-}
-
-.tag-progress .progress--back::-webkit-progress-bar {
-  background-color: var(--tag-4);
-}
-
-.tag-progress .progress--back::-webkit-progress-value {
-  background: var(--tag-4-text);
-}
-
-.tag-progress .progress--analise::-webkit-progress-bar {
-  background-color: var(--tag-2);
-}
-
-.tag-progress .progress--analise::-webkit-progress-value {
-  background-color: var(--tag-2-text);
-}
-
-.tag-progress .progress--front::-webkit-progress-bar {
-  background-color: var(--tag-3);
-}
-
-.tag-progress .progress--front::-webkit-progress-value {
-  background-color: var(--tag-3-text);
+  h2 {
+    font-size: 18px;
+    margin-bottom: 1rem;
+  }
+  p {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    span {
+      color: #b4b4b4;
+    }
+  }
+  .progress {
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    border-radius: 10px;
+    height: 10px;
+  }
+  p .tag-progress .progress {
+    width: 100%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    border-radius: 10px;
+    height: 10px;
+  }
+  .progress::-webkit-progress-bar,
+  .tag-progress .progress::-webkit-progress-value {
+    border-radius: 10px;
+  }
+  .progress--back::-webkit-progress-bar {
+    background-color: var(--tag-4);
+  }
+  .progress--back::-webkit-progress-value {
+    background: var(--tag-4-text);
+  }
+  .progress--analise::-webkit-progress-bar {
+    background-color: var(--tag-2);
+  }
+  .progress--analise::-webkit-progress-value {
+    background-color: var(--tag-2-text);
+  }
+  .progress--front::-webkit-progress-bar {
+    background-color: var(--tag-3);
+  }
+  .progress--front::-webkit-progress-value {
+    background-color: var(--tag-3-text);
+  }
 }
 </style>

@@ -50,6 +50,7 @@ export default defineComponent({
   props: {
     Board: {
       type: Object as PropType<OneBoardInterface>,
+      default: Object as PropType<OneBoardInterface>,
     },
   },
   name: "TaskBoards",
@@ -160,7 +161,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .task-remove {
   width: 30px;
   height: 30px;
@@ -171,11 +172,10 @@ export default defineComponent({
   padding: 0;
   visibility: hidden;
   align-self: flex-end;
-}
-
-.task-remove svg {
-  width: 1rem;
-  height: 1rem;
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
 }
 
 .task-boards {
@@ -183,18 +183,16 @@ export default defineComponent({
   align-items: center;
   justify-content: space-between;
   border-bottom: 2px dashed transparent;
+  &:hover .task-remove {
+    visibility: visible;
+  }
 }
 
 .hover-bottom-border {
   transition: 0.1s;
-}
-
-.hover-bottom-border:hover {
-  border-bottom: 2px dashed var(--purple);
-}
-
-.task-boards:hover .task-remove {
-  visibility: visible;
+  &:hover {
+    border-bottom: 2px dashed var(--purple);
+  }
 }
 
 .task-boards--edit-panel {

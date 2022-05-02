@@ -18,11 +18,10 @@ import TaskBoard from "./TaskBoard.vue";
 export default defineComponent({
   name: "HomePanel",
   components: { RecentActivity, TaskBoards, HeaderPanel, TaskBoard },
-  props: {},
   data() {
     return {
       board: {} as OneBoardInterface,
-      newBoard: "",
+      newBoard: {} as OneBoardInterface,
     };
   },
 
@@ -38,7 +37,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="scss">
 .task {
   cursor: move;
   background-color: var(--white);
@@ -50,35 +49,31 @@ export default defineComponent({
   border: 3px dashed transparent;
   position: relative;
   overflow: hidden;
-}
-
-.task:hover {
-  box-shadow: rgba(99, 99, 99, 0.3) 0 2px 8px 0;
-  border-color: rgba(162, 179, 207, 0.2) !important;
-}
-
-.task::before {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  content: "";
-  height: 2rem;
-  z-index: 0;
+  &:hover {
+    box-shadow: rgba(99, 99, 99, 0.3) 0 2px 8px 0;
+    border-color: rgba(162, 179, 207, 0.2) !important;
+  }
+  &::before {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    content: "";
+    height: 2rem;
+    z-index: 0;
+  }
+  p {
+    font-size: 15px;
+    margin: 1.2rem 0;
+  }
 }
 
 .task-highlight {
   transition: color 0.3s;
-}
-
-.task-highlight:hover {
-  cursor: pointer;
-  color: var(--purple);
-}
-
-.task p {
-  font-size: 15px;
-  margin: 1.2rem 0;
+  &:hover {
+    cursor: pointer;
+    color: var(--purple);
+  }
 }
 
 .task__tag {
@@ -102,6 +97,11 @@ export default defineComponent({
   background-color: var(--tag-2);
 }
 
+.task__tag--no-competitions {
+  color: #a6a6a6;
+  background-color: #f2f2f2;
+}
+
 .task__tags {
   width: 100%;
   display: flex;
@@ -123,20 +123,17 @@ export default defineComponent({
   font-size: 12px;
   display: flex;
   align-items: center;
-}
-
-.task__stats span:not(:last-of-type) {
-  margin-right: 1rem;
-}
-
-.task__stats svg {
-  margin-right: 5px;
-}
-
-.task__stats time {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  span:not(:last-of-type) {
+    margin-right: 1rem;
+  }
+  svg {
+    margin-right: 5px;
+  }
+  time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .task__owner {
@@ -165,21 +162,21 @@ export default defineComponent({
   border-radius: 0 0 13px;
 }
 
-.task-activity h2 {
-  font-size: 18px;
-  margin-bottom: 1rem;
-}
-
-.task-activity li {
-  list-style: none;
-  margin: 1rem 0;
-  padding: 0rem 1rem 1rem 3rem;
-  position: relative;
-}
-
-.task-activity time {
-  display: block;
-  color: var(--light-grey);
+.task-activity {
+  h2 {
+    font-size: 18px;
+    margin-bottom: 1rem;
+  }
+  li {
+    list-style: none;
+    margin: 1rem 0;
+    padding: 0rem 1rem 1rem 3rem;
+    position: relative;
+  }
+  time {
+    display: block;
+    color: var(--light-grey);
+  }
 }
 
 .task-icon {

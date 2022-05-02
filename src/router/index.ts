@@ -1,12 +1,17 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import HomePanel from "../components/HomePanel.vue";
-import TaskBoard from "@/components/TaskBoard.vue";
+import RegisterWindow from "@/components/RegisterWindow.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "home",
     component: HomePanel,
+  },
+  {
+    path: "/reg",
+    name: "register",
+    component: RegisterWindow,
   },
 ];
 

@@ -205,9 +205,12 @@ export default defineComponent({
   props: {
     oneTask: {
       type: Object as PropType<OneTaskInterface>,
+      default: Object as PropType<OneTaskInterface>,
     },
-    isCreateTask: Boolean,
-    task: {},
+    isCreateTask: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -250,12 +253,16 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .details-modal-edit-inputs {
   outline: none;
   font-size: 1rem;
   border: none;
   transition: padding 0.1s;
+  &:focus {
+    border: 1px solid var(--purple);
+    padding: 0.2rem;
+  }
 }
 
 .details-modal-edit-date {
@@ -276,15 +283,9 @@ export default defineComponent({
   overflow: hidden;
   overflow-wrap: break-word;
   resize: none;
-}
-
-.edit-inputs-textarea::-webkit-scrollbar {
-  width: 0;
-}
-
-.details-modal-edit-inputs:focus {
-  border: 1px solid var(--purple);
-  padding: 0.2rem;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 }
 
 .details-modal {
@@ -307,71 +308,66 @@ export default defineComponent({
   overflow-x: hidden;
   -ms-overflow-style: none;
   z-index: 1000;
-}
-
-.details-modal::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
-
-.details-modal .details-modal-close {
-  align-items: center;
-  color: #111827;
-  display: flex;
-  height: 4.5em;
-  justify-content: center;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 4.5em;
-  z-index: 8;
-}
-.details-modal .details-modal-close svg {
-  display: block;
-  cursor: pointer;
-}
-.details-modal .details-modal-title {
-  color: #111827;
-  padding: 1.5em 2em;
-  pointer-events: all;
-  position: relative;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.details-modal .details-modal-title a:not(.btn) {
-  color: var(--purple);
-}
-
-.details-modal .details-modal-title h1 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  line-height: normal;
-}
-.details-modal .details-modal-content {
-  padding: 1rem 2rem;
-  pointer-events: all;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.details-modal .details-modal-task {
-  padding: 0 2rem;
-  pointer-events: all;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.details-modal .details-modal-task .task-activity {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+  .details-modal-close {
+    align-items: center;
+    color: #111827;
+    display: flex;
+    height: 4.5em;
+    justify-content: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 4.5em;
+    z-index: 8;
+  }
+  .details-modal-close svg {
+    display: block;
+    cursor: pointer;
+  }
+  .details-modal-title {
+    color: #111827;
+    padding: 1.5em 2em;
+    pointer-events: all;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .details-modal-title a:not(.btn) {
+    color: var(--purple);
+  }
+  .details-modal-title h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: normal;
+  }
+  .details-modal-content {
+    padding: 1rem 2rem;
+    pointer-events: all;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .details-modal-task {
+    padding: 0 2rem;
+    pointer-events: all;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .details-modal-task .task-activity {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
 }
 
 .details-modal-overlay {
@@ -390,10 +386,9 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.details-modal-input .btn {
-  margin-left: 1rem;
+  .btn {
+    margin-left: 1rem;
+  }
 }
 
 .details-modal-create-task {
@@ -416,40 +411,25 @@ export default defineComponent({
   width: 20px;
   height: 20px;
   cursor: pointer;
-}
-.svg-icon-edit:hover {
-  transform: scale(1.2);
-}
-
-.svg-icon path,
-.svg-icon polygon,
-.svg-icon rect {
-  fill: black;
+  &:hover {
+    transform: scale(1.2);
+  }
 }
 
-.svg-icon circle {
-  stroke: #4691f6;
-  stroke-width: 1;
+.svg-icon {
+  path,
+  polygon,
+  rect {
+    fill: black;
+  }
+  circle {
+    stroke: #4691f6;
+    stroke-width: 1;
+  }
 }
 
 .svg-icon-card {
   margin-right: 1rem;
-}
-
-.grow-wrap {
-  display: grid;
-}
-.grow-wrap::after {
-  content: attr(data-replicated-value) " ";
-  white-space: pre-wrap;
-  visibility: hidden;
-}
-.grow-wrap > textarea {
-  resize: none;
-}
-.grow-wrap > textarea,
-.grow-wrap::after {
-  grid-area: 1 / 1 / 2 / 2;
 }
 
 .task__tag--validation-message {

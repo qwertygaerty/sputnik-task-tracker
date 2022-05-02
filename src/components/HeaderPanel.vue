@@ -6,7 +6,7 @@
     </h4>
 
     <div class="header-elements">
-      <a href="#" class="btn" @click="openModal">Создать..</a>
+      <router-link class="btn" to="/reg">Войти</router-link>
     </div>
   </header>
   <BoardCreateModal
@@ -39,7 +39,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .header {
   width: 100%;
   display: flex;
@@ -48,6 +48,11 @@ export default defineComponent({
   height: 4rem;
   border-bottom: solid 2px var(--purple);
   padding: calc(2rem - 10px);
+  .header-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .header-logo {
@@ -55,12 +60,6 @@ export default defineComponent({
   height: 30px;
   border-radius: 50px;
   padding: 0.1rem;
-}
-
-.header .header-info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .header-elements {
