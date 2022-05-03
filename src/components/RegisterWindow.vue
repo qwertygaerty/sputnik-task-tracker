@@ -7,9 +7,16 @@
           Работайте в команде, управляйте проектами и выводите продуктивность на
           новый уровень вместе с Task Tracker.
         </p>
+        {{ errors.message }}
         <div class="input-block">
           <label for="email" class="input-label">Email</label>
-          <input type="email" name="email" id="email" placeholder="Email" />
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            v-model="email"
+          />
         </div>
         <div class="input-block">
           <label for="password" class="input-label">Password</label>
@@ -18,14 +25,16 @@
             name="password"
             id="password"
             placeholder="Password"
+            v-model="password"
           />
         </div>
         <div class="modal-buttons">
           <a href="#" class="btn">Forgot your password?</a>
-          <a href="#" class="btn">Login</a>
+          <a href="#" class="btn" @click="register">Register</a>
         </div>
         <p class="sign-up">
-          Уже есть аккаунт <a href="#" class="btn">Войти</a>
+          Уже есть аккаунт
+          <a href="#" class="btn">Зарегистрироваться</a>
         </p>
       </div>
       <div class="modal-right">
@@ -35,27 +44,38 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import * as firebase from "firebase/app";
-require("firebase/auth");
-import { useRouter } from "vue-router"; // import router
-const email = ref("");
-const password = ref("");
-const router = useRouter(); // get a reference to our vue router
-const register = () => {
-  firebase
-    .auth() // get the auth api
-    .createUserWithEmailAndPassword(email.value, password.value) // need .value because ref()
-    .then((data) => {
-      console.log("Successfully registered!");
-      router.push("/"); // redirect to the feed
-    })
-    .catch((error) => {
-      console.log(error.code);
-      alert(error.message);
-    });
-};
+<script lang="ts">
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { defineComponent, PropType } from "vue";
+
+export default defineComponent({
+  name: "RegisterLogin",
+  data() {
+    return {
+      email: "",
+      password: "",
+      errors: {},
+    };
+  },
+  methods: {
+    register: function () {
+      if (this.email && this.password) {
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, this.email, this.password)
+          .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            console.log(user);
+          })
+          .catch((error) => {
+            if (error) {
+              this.errors = error;
+            }
+          });
+      }
+    },
+  },
+});
 </script>
 <style scoped>
 .modal {
