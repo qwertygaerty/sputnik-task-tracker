@@ -26,6 +26,7 @@
               background: 'var(--purple)',
               color: 'var(--bg)',
             },
+            background: 'none',
           }"
           >Войти</e-button
         ></router-link
