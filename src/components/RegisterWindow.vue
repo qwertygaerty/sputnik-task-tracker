@@ -2,12 +2,14 @@
   <div class="modal">
     <div class="modal-container">
       <div class="modal-left">
-        <h1 class="modal-title">Зарегистрируйтесь</h1>
+        <h1 class="modal-title">{{ this.title }}</h1>
         <p class="modal-desc">
           Работайте в команде, управляйте проектами и выводите продуктивность на
           новый уровень вместе с Task Tracker.
         </p>
-        {{ errors.message }}
+        <div class="task__tag task__tag--error-message" v-if="errors.message">
+          {{ errors.message }}
+        </div>
         <div class="input-block">
           <label for="email" class="input-label">Email</label>
           <input
@@ -29,12 +31,39 @@
           />
         </div>
         <div class="modal-buttons">
-          <a href="#" class="btn">Forgot your password?</a>
-          <a href="#" class="btn" @click="register">Register</a>
+          <a href="#" class="btn" v-show="title === 'Войти'"
+            >Forgot your password?</a
+          >
+          <a href="#" class="btn" @click="register">{{ this.btn }}</a>
+          <e-button
+            :data="{
+              leftIcon: 'google',
+              rounded: '40px',
+              size: '0.4rem',
+              softColors: true,
+            }"
+            :styleConfig="{
+              border: '2px solid var(--purple)',
+              textDecoration: 'none',
+              fontWeight: '400',
+              fontFamily: `-apple-system, system-ui, 'Segoe UI', 'Liberation Sans'`,
+              fontSize: '13px',
+              padding: '8px 0.8em',
+              hover: {
+                background: 'none',
+                color: 'var(--purple)',
+              },
+              background: 'var(--purple)',
+              color: 'var(--bg)',
+            }"
+            class="btn"
+            @click="google"
+            >Войти</e-button
+          >
         </div>
-        <p class="sign-up">
-          Уже есть аккаунт
-          <a href="#" class="btn">Зарегистрироваться</a>
+        <p class="sign-up" v-if="title === 'Зарегистрируйтесь'">
+          Уже есть аккаунт?
+          <a href="#" class="btn" @click="login">Войти</a>
         </p>
       </div>
       <div class="modal-right">
@@ -45,32 +74,91 @@
 </template>
 
 <script lang="ts">
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
 import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
   name: "RegisterLogin",
+  props: {
+    titleProp: {
+      type: String,
+      default: "Зарегистрируйтесь",
+    },
+    btnProp: {
+      type: String,
+      default: "Зарегистрироваться",
+    },
+  },
   data() {
     return {
+      title: this.titleProp,
+      btn: this.btnProp,
       email: "",
       password: "",
+      user: {},
+      token: "",
       errors: {},
+      action: "register",
+      provider: new GoogleAuthProvider(),
     };
   },
   methods: {
+    login: function () {
+      this.btn = "Войти";
+      this.title = "Войти";
+      this.action = "login";
+      this.register();
+    },
+
+    google: function () {
+      this.action = "google";
+      this.register();
+    },
     register: function () {
-      if (this.email && this.password) {
-        const auth = getAuth();
-        createUserWithEmailAndPassword(auth, this.email, this.password)
+      const auth = getAuth();
+      if (this.action === "login") {
+        signInWithEmailAndPassword(auth, this.email, this.password)
           .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            console.log(user);
+            this.user = userCredential.user;
+            console.log(this.user);
+            this.$router.push("/");
           })
           .catch((error) => {
-            if (error) {
-              this.errors = error;
+            this.errors = error;
+          });
+      } else if (this.action === "register") {
+        createUserWithEmailAndPassword(auth, this.email, this.password)
+          .then((userCredential) => {
+            this.user = userCredential.user;
+            console.log(this.user);
+            this.$router.push("/");
+          })
+          .catch((error) => {
+            this.errors = error;
+          });
+      } else if (this.action === "google") {
+        signInWithPopup(auth, this.provider)
+          .then((result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            if (credential) {
+              if (credential.accessToken) {
+                this.token = credential.accessToken;
+              }
+              this.user = result.user;
+              console.log(this.user);
+              this.$router.push("/");
             }
+          })
+          .catch((error) => {
+            this.errors = error;
+            const credential = GoogleAuthProvider.credentialFromError(error);
           });
       }
     },
@@ -179,6 +267,12 @@ export default defineComponent({
 
 .input-block:focus-within .input-label {
   color: var(--purple);
+}
+
+.task__tag--error-message {
+  color: #ff4d4d;
+  background-color: #ffe6e6;
+  margin-bottom: 1rem;
 }
 
 @media (max-width: 750px) {
