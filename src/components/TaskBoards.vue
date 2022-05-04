@@ -172,7 +172,6 @@ export default defineComponent({
   },
 });
 </script>
-
 <style scoped lang="scss">
 .task-remove {
   width: 30px;
