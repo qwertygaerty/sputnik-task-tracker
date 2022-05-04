@@ -131,6 +131,7 @@ export default defineComponent({
         this.$emit(`get-board`, this.boards[index] as OneBoardInterface);
       }
       this.boards.splice(index, 1);
+      this.getBoards(true);
     },
 
     editBoard: function (board: OneBoardInterface) {
@@ -151,8 +152,12 @@ export default defineComponent({
     },
 
     saveModal: function (Board: string) {
-      this.tempBoard.name = Board;
+      let index = this.boards.findIndex(
+        (el) => el.name === this.tempBoard.name
+      );
+      this.boards[index].name = Board;
       this.closeCreateModal();
+      this.getBoards(true);
     },
 
     addCreateModal: async function (Board: string) {
@@ -160,10 +165,13 @@ export default defineComponent({
         boards: arrayUnion({ name: Board }),
       });
       this.closeCreateModal();
-      this.getBoards();
+      this.getBoards(false);
     },
-    getBoards: async function () {
-      // await setDoc(doc(db, "db", "boards"), { boards: this.boards });
+    getBoards: async function (isUpdate: boolean) {
+      if (isUpdate) {
+        await setDoc(doc(db, "db", "boards"), { boards: this.boards });
+      }
+
       const querySnapshot = await getDocs(collection(db, `db`));
       querySnapshot.forEach((doc) => {
         console.log(`${doc.id} => ${JSON.stringify(doc.data().boards)}`);
@@ -176,7 +184,7 @@ export default defineComponent({
     },
   },
   async mounted() {
-    this.getBoards();
+    this.getBoards(false);
   },
 });
 </script>
