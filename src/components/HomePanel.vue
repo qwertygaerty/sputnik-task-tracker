@@ -2,30 +2,59 @@
   <HeaderPanel></HeaderPanel>
   <aside class="task-details">
     <RecentActivity></RecentActivity>
-    <TaskBoards @getBoard="getBoardTask" :Board="newBoard"></TaskBoards>
+    <TaskBoards
+      @getBoard="getBoardTask"
+      @getBoards="getBoards"
+      :Board="newBoard"
+    ></TaskBoards>
   </aside>
   <TaskBoard :task="board" v-if="Object.keys(board).length !== 0"></TaskBoard>
 </template>
 
 <script lang="ts">
+import { provide, ref } from "vue";
 import { defineComponent, PropType } from "vue";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
 import TaskBoards from "./TaskBoards.vue";
 import RecentActivity from "./RecentActivity.vue";
 import HeaderPanel from "./HeaderPanel.vue";
 import TaskBoard from "./TaskBoard.vue";
+import BoardsInterface from "@/interfaces/BoardsInterface";
 
 export default defineComponent({
   name: "HomePanel",
+  setup() {
+    const boards = ref({} as BoardsInterface);
+
+    function updateBoards(item: BoardsInterface) {
+      boards.value = item;
+      console.log(boards.value);
+    }
+
+    provide("boards", {
+      boards,
+      updateBoards,
+    });
+
+    return {
+      updateBoards,
+      boards,
+    };
+  },
   components: { RecentActivity, TaskBoards, HeaderPanel, TaskBoard },
   data() {
     return {
       board: {} as OneBoardInterface,
       newBoard: {} as OneBoardInterface,
+      boardsItem: {} as BoardsInterface,
     };
   },
 
   methods: {
+    getBoards: function (item: BoardsInterface) {
+      this.boardsItem = item;
+      this.boards = this.boardsItem;
+    },
     getBoardTask: function (item: OneBoardInterface) {
       if (this.board == item) {
         this.board = {} as OneBoardInterface;

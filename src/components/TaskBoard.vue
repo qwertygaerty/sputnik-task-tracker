@@ -93,12 +93,14 @@
 <script lang="ts">
 import OneTask from "@/components/OneTask.vue";
 import CreateModal from "@/components/CreateModal.vue";
-import { defineComponent, PropType } from "vue";
+import { defineComponent, PropType, inject } from "vue";
 import { VueDraggableNext } from "vue-draggable-next";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
 import OneTaskInterface from "@/interfaces/OneTaskInterface";
 import OneColumnInterface from "@/interfaces/OneColumnInterface";
 import TaskEditModal from "@/components/TaskEditModal.vue";
+import BoardsInterface from "@/interfaces/BoardsInterface";
+import { setup } from "vue-class-component";
 
 export default defineComponent({
   name: "TaskBoard",
@@ -107,6 +109,16 @@ export default defineComponent({
       type: Object as PropType<OneBoardInterface>,
       default: Object as PropType<OneBoardInterface>,
     },
+  },
+  setup() {
+    const b = inject("boards") as { updateBoards: any; boards: any };
+    console.log(b);
+    const updateBoards = b.updateBoards;
+    const boards = b.boards;
+    return {
+      boards,
+      updateBoards,
+    };
   },
   components: {
     OneTask,
@@ -153,6 +165,7 @@ export default defineComponent({
         this.board.columns[num].tasks.push(task);
       }
       this.openCreateTask = false;
+      this.updateDB();
     },
 
     closeCreateModal() {
@@ -166,6 +179,7 @@ export default defineComponent({
           tasks: [],
         });
         this.closeCreateModal();
+        this.updateDB();
       }
     },
 
@@ -187,6 +201,7 @@ export default defineComponent({
             b[0].style.overflow === "hidden" ? "auto" : "hidden";
         }
       });
+      this.updateDB();
       return 0;
     },
 
@@ -194,6 +209,7 @@ export default defineComponent({
       if (this.board != undefined) {
         let index = this.board.columns.indexOf(column);
         this.board.columns.splice(index, 1);
+        this.updateDB();
       }
     },
 
@@ -207,6 +223,14 @@ export default defineComponent({
     saveModal: function (column: string) {
       this.tempColumn.name = column;
       this.closeCreateModal();
+    },
+
+    updateDB: function () {
+      let index = this.boards.findIndex(
+        (el: OneBoardInterface) => el.name === this.task.name
+      );
+      this.boards[index] = this.board;
+      this.updateBoards(this.boards);
     },
   },
 
