@@ -45,7 +45,15 @@ import { defineComponent, PropType } from "vue";
 import CreateModal from "@/components/CreateModal.vue";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
 import BoardsInterface from "@/interfaces/BoardsInterface";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+  doc,
+} from "firebase/firestore";
 import { db } from "@/firebase/firebase_config";
 
 export default defineComponent({
@@ -147,13 +155,20 @@ export default defineComponent({
       this.closeCreateModal();
     },
 
-    addCreateModal: function (Board: string) {
-      this.boards.push({
-        name: Board,
-        columns: [],
-        users: [{ img: "", name: "" }],
+    addCreateModal: async function (Board: string) {
+      await updateDoc(doc(db, "db", "boards"), {
+        boards: arrayUnion({ name: Board }),
       });
       this.closeCreateModal();
+      this.getBoards();
+    },
+    getBoards: async function () {
+      // await setDoc(doc(db, "db", "boards"), { boards: this.boards });
+      const querySnapshot = await getDocs(collection(db, `db`));
+      querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${JSON.stringify(doc.data().boards)}`);
+        this.boards = doc.data().boards;
+      });
     },
     openTaskBoard: function (Board: OneBoardInterface) {
       this.$emit("get-board", Board);
@@ -161,14 +176,7 @@ export default defineComponent({
     },
   },
   async mounted() {
-    this.boards = [] as BoardsInterface;
-    const querySnapshot = await getDocs(collection(db, `db`));
-    querySnapshot.forEach((doc) => {
-      console.log(`${doc.id} => ${JSON.stringify(doc.data().board)}`);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
-      this.boards.push(doc.data().board);
-    });
+    this.getBoards();
   },
 });
 </script>
