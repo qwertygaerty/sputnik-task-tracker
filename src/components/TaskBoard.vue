@@ -67,6 +67,8 @@
               :key="j.title"
               :task="j"
               class="drag-and-drop"
+              @editTask="editTask"
+              @click="setTempValue(i)"
             ></OneTask>
           </VueDraggableNext>
         </div>
@@ -214,11 +216,36 @@ export default defineComponent({
       }
     },
 
+    setTempValue: function (column: OneColumnInterface) {
+      this.tempColumn = column;
+    },
+
     editBoard: function (column: OneColumnInterface) {
       this.createModalMessage = column.name;
       this.saveOrCreate = "save";
       this.openCreateModal = !this.openCreateModal;
       this.tempColumn = column;
+    },
+
+    editTask: function (tasks: {
+      taskOld: OneTaskInterface;
+      taskNew: OneTaskInterface;
+    }) {
+      let indexBoard = this.findInBoards(this.task.name, this.boards);
+      let indexColumn = this.findInBoards(
+        this.tempColumn.name,
+        this.boards[indexBoard].columns
+      );
+      let indexTask = this.boards[indexBoard].columns[
+        indexColumn
+      ].tasks.findIndex(
+        (el: { title: string }) => el.title == tasks.taskOld.title
+      );
+
+      this.boards[indexBoard].columns[indexColumn].tasks[indexTask] =
+        tasks.taskNew;
+
+      this.updateBoards(this.boards);
     },
 
     saveModal: function (column: string) {

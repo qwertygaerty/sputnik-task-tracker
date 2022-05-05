@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, inject, PropType } from "vue";
 import TaskEditModal from "@/components/TaskEditModal.vue";
 import OneTaskInterface from "@/interfaces/OneTaskInterface";
 
@@ -63,7 +63,17 @@ export default defineComponent({
       default: Object as PropType<OneTaskInterface>,
     },
   },
+  emits: ["edit-task"],
   components: { TaskEditModal },
+  setup() {
+    const b = inject("boards") as { updateBoards: any; boards: any };
+    const updateBoards = b.updateBoards;
+    const boards = b.boards;
+    return {
+      boards,
+      updateBoards,
+    };
+  },
   data() {
     return {
       openTaskModal: false,
@@ -78,9 +88,15 @@ export default defineComponent({
     },
 
     closeModal(task: OneTaskInterface) {
+      this.$emit("edit-task", { taskOld: this.taskData, taskNew: task });
       this.taskData = task;
       this.openTaskModal = false;
     },
+
+    findInBoards: function (name: string, obj: []) {
+      return obj.findIndex((el: { name: string }) => el.name == name);
+    },
+
     onContextMenu(e: MouseEvent) {
       //prevent the browser's default menu
       e.preventDefault();
