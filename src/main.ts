@@ -4,6 +4,8 @@ import router from "./router";
 import "@imengyu/vue3-context-menu/lib/vue3-context-menu.css";
 import ContextMenu from "@imengyu/vue3-context-menu";
 import "../src/assets/css/iconfont.css";
+import Vue3ColorPicker from "vue3-colorpicker";
+import "vue3-colorpicker/style.css";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import egalWidgets from "@egalteam/widget-library";
@@ -34,4 +36,9 @@ const auth = firebase.auth();
 
 export { auth, db };
 
-createApp(App).use(egalWidgets).use(router).use(ContextMenu).mount("#app");
+createApp(App)
+  .use(Vue3ColorPicker)
+  .use(egalWidgets)
+  .use(router)
+  .use(ContextMenu)
+  .mount("#app");

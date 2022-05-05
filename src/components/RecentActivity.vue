@@ -15,6 +15,16 @@
         1
       </progress>
     </div>
+
+    <div class="tag-progress">
+      <a href="#" class="task-remove project-participants__add"></a>
+    </div>
+
+    <color-picker
+      v-model:pureColor="pureColor"
+      v-model:gradientColor="gradientColor"
+      shape="circle"
+    />
   </div>
   <div class="task-activity">
     <h2>Недавняя активность</h2>
@@ -44,13 +54,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
+
 export default defineComponent({
+  setup() {
+    const pureColor = ref("#809fff");
+    const gradientColor = ref(
+      "linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 100%)"
+    );
+
+    return { pureColor, gradientColor };
+  },
   name: "RecentActivity",
+  watch: {
+    pureColor: function () {
+      console.log(this.pureColor);
+    },
+  },
 });
 </script>
 
 <style scoped lang="scss">
+.vc-color-wrap {
+  border-radius: 40px;
+}
+
 .tag-progress {
   margin: 1.5rem 0;
   h2 {
@@ -104,6 +132,41 @@ export default defineComponent({
   }
   .progress--front::-webkit-progress-value {
     background-color: var(--tag-3-text);
+  }
+}
+
+.project-participants__add {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  background: var(--purple);
+  border-radius: 100rem;
+  margin: 0 0.2rem;
+  font-family: "Poppins", sans-serif;
+  background: transparent;
+  border: 1px dashed #969696;
+  font-size: 0;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  &::after {
+    color: #969696;
+    font-size: 1.3rem;
+    width: 100%;
+    height: 100%;
+    content: "+";
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    transition: background-color, color 0.3s;
+    font-family: "Poppins", sans-serif;
+  }
+  &:hover::after {
+    background: var(--purple);
+    color: white;
   }
 }
 </style>
