@@ -20,15 +20,17 @@ import RecentActivity from "./RecentActivity.vue";
 import HeaderPanel from "./HeaderPanel.vue";
 import TaskBoard from "./TaskBoard.vue";
 import BoardsInterface from "@/interfaces/BoardsInterface";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/firebase/firebase_config";
 
 export default defineComponent({
   name: "HomePanel",
   setup() {
     const boards = ref({} as BoardsInterface);
 
-    function updateBoards(item: BoardsInterface) {
+    async function updateBoards(item: BoardsInterface) {
       boards.value = item;
-      console.log(boards.value);
+      await setDoc(doc(db, "db", "boards"), { boards: boards.value });
     }
 
     provide("boards", {
