@@ -157,13 +157,14 @@ export default defineComponent({
         (el) => el.name === this.tempBoard.name
       );
       this.boards[index].name = Board;
+      console.log(this.boards[index]);
       this.closeCreateModal();
       this.getBoards(true);
     },
 
     addCreateModal: async function (Board: string) {
       await updateDoc(doc(db, "db", "boards"), {
-        boards: arrayUnion({ name: Board }),
+        boards: arrayUnion({ name: Board, columns: [], users: [] }),
       });
       this.closeCreateModal();
       this.getBoards(false);

@@ -21,6 +21,7 @@
         ghost-class="ghost-card"
         group="board.columns"
         class="project-tasks"
+        @end="flipDrag"
       >
         <div
           class="project-column tasks-column"
@@ -221,14 +222,21 @@ export default defineComponent({
     },
 
     saveModal: function (column: string) {
-      this.tempColumn.name = column;
+      let indexBoard = this.findInBoards(this.task.name, this.boards);
+      let indexColumn = this.findInBoards(
+        this.tempColumn.name,
+        this.boards[indexBoard].columns
+      );
+      this.boards[indexBoard].columns[indexColumn].name = column;
+      this.updateBoards(this.boards);
       this.closeCreateModal();
+    },
+    findInBoards: function (name: string, obj: []) {
+      return obj.findIndex((el: { name: string }) => el.name == name);
     },
 
     updateDB: function () {
-      let index = this.boards.findIndex(
-        (el: OneBoardInterface) => el.name === this.task.name
-      );
+      let index = this.findInBoards(this.task.name, this.boards);
       this.boards[index] = this.board;
       this.updateBoards(this.boards);
     },
