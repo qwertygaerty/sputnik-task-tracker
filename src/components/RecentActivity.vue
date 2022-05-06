@@ -5,14 +5,7 @@
     <template v-if="activities">
       <div class="tag-progress" v-for="j in activities.competitions" :key="j">
         <p>{{ j.name }} <span>1/8</span></p>
-        <progress
-          class="progress"
-          max="8"
-          value="1"
-          :style="{ this.webkitProgressValue: j.color }"
-        >
-          1
-        </progress>
+        <progress class="progress" max="8" value="1">1</progress>
       </div>
     </template>
 
