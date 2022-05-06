@@ -114,7 +114,10 @@ export default defineComponent({
     },
   },
   setup() {
-    const b = inject("boards") as { updateBoards: any; boards: any };
+    const b = inject("boards") as {
+      updateBoards: any;
+      boards: any;
+    };
     console.log(b);
     const updateBoards = b.updateBoards;
     const boards = b.boards;
@@ -194,7 +197,6 @@ export default defineComponent({
     },
 
     flipDrag: function (event: CustomEvent) {
-      console.log(event);
       let massOfEl = Array.from(document.getElementsByTagName("div"));
       massOfEl.forEach((el) => {
         if (el.getAttribute("animation") === "100") {

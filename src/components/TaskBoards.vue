@@ -176,7 +176,7 @@ export default defineComponent({
 
       const querySnapshot = await getDocs(collection(db, `db`));
       querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${JSON.stringify(doc.data().boards)}`);
+        console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
         this.boards = doc.data().boards;
       });
     },

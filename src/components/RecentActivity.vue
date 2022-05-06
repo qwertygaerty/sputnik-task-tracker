@@ -1,30 +1,41 @@
 <template>
   <div class="tag-progress">
     <h2>Ход выполнения задач</h2>
-    <div class="tag-progress">
-      <p>Бэкенд <span>1/8</span></p>
-      <progress class="progress progress--back" max="8" value="1">1</progress>
-    </div>
-    <div class="tag-progress">
-      <p>Фронтенд <span>1/10</span></p>
-      <progress class="progress progress--front" max="10" value="1">1</progress>
-    </div>
-    <div class="tag-progress">
-      <p>Аналитик <span>1/7</span></p>
-      <progress class="progress progress--analise" max="7" value="1">
-        1
-      </progress>
+
+    <template v-if="activities">
+      <div class="tag-progress" v-for="j in activities.competitions" :key="j">
+        <p>{{ j.name }} <span>1/8</span></p>
+        <progress
+          class="progress"
+          max="8"
+          value="1"
+          :style="{ this.webkitProgressValue: j.color }"
+        >
+          1
+        </progress>
+      </div>
+    </template>
+
+    <div>
+      <a href="#" class="project-participants__add" @click="openAddRecent"></a>
     </div>
 
-    <div class="tag-progress">
-      <a href="#" class="task-remove project-participants__add"></a>
+    <div class="tag-create" v-if="isCreate">
+      <color-picker
+        v-model:pureColor="pureColor"
+        v-model:gradientColor="gradientColor"
+        shape="circle"
+      />
+      <div class="tag-create-text tag-progress">
+        <label
+          ><input
+            type="text"
+            class="details-modal-edit-inputs"
+            v-model="tagTitle"
+        /></label>
+      </div>
+      <a href="#" class="btn" @click="addRecent">Добавить</a>
     </div>
-
-    <color-picker
-      v-model:pureColor="pureColor"
-      v-model:gradientColor="gradientColor"
-      shape="circle"
-    />
   </div>
   <div class="task-activity">
     <h2>Недавняя активность</h2>
@@ -55,6 +66,10 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "@/firebase/firebase_config";
+import ActivityInterface from "@/interfaces/ActivityInterface";
+import OneActivityInterface from "@/interfaces/OneActivityInterface";
 
 export default defineComponent({
   setup() {
@@ -66,15 +81,75 @@ export default defineComponent({
     return { pureColor, gradientColor };
   },
   name: "RecentActivity",
+  data: function () {
+    return {
+      isCreate: false,
+      activities: {} as OneActivityInterface,
+      competitions: [{ color: "", name: "" }],
+      tagTitle: "",
+      allActivities: [] as ActivityInterface,
+      indexOfRecent: 0,
+    };
+  },
+  methods: {
+    openAddRecent() {
+      this.isCreate = !this.isCreate;
+    },
+    addRecent() {
+      this.activities.competitions.push({
+        color: this.pureColor,
+        name: this.tagTitle,
+      });
+      this.allActivities[this.indexOfRecent] = this.activities;
+      console.log(this.allActivities);
+      this.isCreate = !this.isCreate;
+      this.updateDB();
+    },
+    async updateDB() {
+      await setDoc(doc(db, "db", "activity"), {
+        activities: this.allActivities,
+      });
+    },
+  },
   watch: {
     pureColor: function () {
       console.log(this.pureColor);
     },
   },
+  async mounted() {
+    const allActivity = await getDoc(doc(db, "db", "activity"));
+    this.allActivities = allActivity.data()?.activities;
+    this.indexOfRecent = this.allActivities.findIndex(
+      (el: any) => el.board === "Доска 2"
+    );
+    this.activities = allActivity.data()?.activities[this.indexOfRecent];
+  },
 });
 </script>
 
 <style scoped lang="scss">
+.tag-create {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.tag-create input {
+  width: 75%;
+}
+
+.details-modal-edit-inputs {
+  outline: none;
+  font-size: 1rem;
+  border: none;
+  transition: padding 0.1s;
+  &:focus {
+    border: 1px solid var(--purple);
+    padding: 0.2rem;
+  }
+}
+
 .vc-color-wrap {
   border-radius: 40px;
 }
@@ -115,6 +190,7 @@ export default defineComponent({
   .tag-progress .progress::-webkit-progress-value {
     border-radius: 10px;
   }
+
   .progress--back::-webkit-progress-bar {
     background-color: var(--tag-4);
   }
