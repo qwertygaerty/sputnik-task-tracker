@@ -16,6 +16,10 @@
   min-height: 100vh;
 }
 
+::-webkit-scrollbar {
+  width: 0;
+}
+
 :root {
   --bg: #ebf0f7;
   --header: #fbf4f6;

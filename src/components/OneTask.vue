@@ -3,6 +3,7 @@
     <TaskEditModal
       :oneTask="oneTask"
       :isCreateTask="false"
+      :boardName="boardName"
       v-if="openTaskModal"
       @closeEditModal="closeModal"
     ></TaskEditModal>
@@ -62,6 +63,7 @@ export default defineComponent({
       type: Object as PropType<OneTaskInterface>,
       default: Object as PropType<OneTaskInterface>,
     },
+    boardName: String,
   },
   emits: ["edit-task"],
   components: { TaskEditModal },
@@ -118,7 +120,12 @@ export default defineComponent({
             label: "Удалить",
             icon: "icon-delete",
             onClick: () => {
-              this.$el.parentNode.removeChild(this.$el);
+              console.log(this.task);
+              this.$emit("edit-task", {
+                taskOld: this.task,
+                taskNew: {},
+                action: "remove",
+              });
             },
           },
         ],

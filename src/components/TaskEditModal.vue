@@ -1,5 +1,5 @@
 <template>
-  <div class="details-modal">
+  <div class="details-modal" draggable="false">
     <div
       class="details-modal-close"
       @click="closeModal"
@@ -73,8 +73,19 @@
       />
 
       <div class="task__tags details-modal-task-tags">
-        <span class="task__tag task__tag--copyright">
+        <span
+          class="task__tag task__tag--copyright"
+          v-if="oneTask.competitions"
+        >
           {{ oneTask.competitions }}
+        </span>
+        <span
+          class="task__tag task__tag--no-competitions"
+          v-for="i in this.competitions"
+          @click="addCompetition(i.name)"
+          :key="i"
+        >
+          {{ i.name }}
         </span>
       </div>
     </div>
@@ -199,6 +210,9 @@
 import { defineComponent, PropType } from "vue";
 import OneTaskInterface from "../interfaces/OneTaskInterface";
 import OneColumnInterface from "@/interfaces/OneColumnInterface";
+import OneActivityInterface from "@/interfaces/OneActivityInterface";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase/firebase_config";
 
 export default defineComponent({
   name: "TaskEditModal",
@@ -211,6 +225,10 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    boardName: {
+      type: String,
+      default: "",
+    },
   },
   emits: ["close-edit-modal", "close-modal"],
   data() {
@@ -218,6 +236,7 @@ export default defineComponent({
       modalTask: this.oneTask,
       date: this.oneTask?.date || { start: "", end: "" },
       failedValidation: false,
+      competitions: [{} as OneActivityInterface],
     };
   },
   methods: {
@@ -233,9 +252,18 @@ export default defineComponent({
     autoGrow(elem: any) {
       elem.height = elem.scrollHeight + "px";
     },
+
+    addCompetition(competition: string) {
+      if (this.modalTask) {
+        this.modalTask.competitions.push(competition);
+      }
+    },
     closeModal() {
       if (this.modalTask !== undefined) {
         this.modalTask.date = this.date;
+        if (this.modalTask.competitions === undefined) {
+          this.modalTask.competitions = [];
+        }
       }
       if (!this.isCreateTask) {
         this.$emit(`close-edit-modal`, this.modalTask);
@@ -248,6 +276,15 @@ export default defineComponent({
       return data;
     },
   },
+  async mounted() {
+    const allActivity = await getDoc(doc(db, "db", "activity"));
+    let indexOfRecent = allActivity
+      .data()
+      ?.activities.findIndex((el: any) => el.board === this.boardName);
+    this.competitions =
+      allActivity.data()?.activities[indexOfRecent].competitions;
+    console.log(this.competitions);
+  },
   created() {
     this.reset();
   },
@@ -258,17 +295,22 @@ export default defineComponent({
 .details-modal-edit-inputs {
   outline: none;
   font-size: 1rem;
-  border: none;
   transition: padding 0.1s;
+
+  padding: 0.2rem;
   &:focus {
-    border: 1px solid var(--purple);
-    padding: 0.2rem;
+    padding: 0.3rem;
   }
+}
+
+.details-modal-edit-inputs:not(.details-modal-edit-date) {
+  border: 1px solid var(--purple);
 }
 
 .details-modal-edit-date {
   text-align: center;
   width: 7rem;
+  border: none;
 }
 
 .edit-inputs-h1 {
@@ -390,6 +432,10 @@ export default defineComponent({
   .btn {
     margin-left: 1rem;
   }
+}
+
+.details-modal-title-text ~ svg {
+  margin-left: 1rem;
 }
 
 .details-modal-create-task {

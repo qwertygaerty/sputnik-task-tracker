@@ -66,6 +66,7 @@
               v-for="j in i.tasks"
               :key="j.title"
               :task="j"
+              :boardName="board.name"
               class="drag-and-drop"
               @editTask="editTask"
               @click="setTempValue(i)"
@@ -118,7 +119,6 @@ export default defineComponent({
       updateBoards: any;
       boards: any;
     };
-    console.log(b);
     const updateBoards = b.updateBoards;
     const boards = b.boards;
     return {
@@ -232,6 +232,7 @@ export default defineComponent({
     editTask: function (tasks: {
       taskOld: OneTaskInterface;
       taskNew: OneTaskInterface;
+      action?: string;
     }) {
       let indexBoard = this.findInBoards(this.task.name, this.boards);
       let indexColumn = this.findInBoards(
@@ -244,10 +245,17 @@ export default defineComponent({
         (el: { title: string }) => el.title == tasks.taskOld.title
       );
 
-      this.boards[indexBoard].columns[indexColumn].tasks[indexTask] =
-        tasks.taskNew;
+      if (tasks.action === "remove") {
+        this.boards[indexBoard].columns[indexColumn].tasks.splice(
+          indexTask,
+          -1
+        );
+      } else {
+        this.boards[indexBoard].columns[indexColumn].tasks[indexTask] =
+          tasks.taskNew;
+      }
 
-      this.updateBoards(this.boards);
+      // this.updateBoards(this.boards);
     },
 
     saveModal: function (column: string) {
