@@ -232,7 +232,7 @@ export default defineComponent({
     editTask: function (tasks: {
       taskOld: OneTaskInterface;
       taskNew: OneTaskInterface;
-      action?: string;
+      status?: string;
     }) {
       let indexBoard = this.findInBoards(this.task.name, this.boards);
       let indexColumn = this.findInBoards(
@@ -245,17 +245,20 @@ export default defineComponent({
         (el: { title: string }) => el.title == tasks.taskOld.title
       );
 
-      if (tasks.action === "remove") {
-        this.boards[indexBoard].columns[indexColumn].tasks.splice(
-          indexTask,
-          -1
+      if (tasks.status === "remove") {
+        console.log(indexTask);
+        console.log(
+          this.boards[indexBoard].columns[indexColumn].tasks.splice(
+            indexTask,
+            1
+          )
         );
       } else {
         this.boards[indexBoard].columns[indexColumn].tasks[indexTask] =
           tasks.taskNew;
       }
 
-      // this.updateBoards(this.boards);
+      this.updateBoards(this.boards);
     },
 
     saveModal: function (column: string) {

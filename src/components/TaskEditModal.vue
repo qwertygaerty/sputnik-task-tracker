@@ -148,21 +148,6 @@
           <li>
             <span class="task-icon task-icon--edit"></span>
             <b>Илья</b> написал коммент
-            <time>April 10</time>
-          </li>
-          <li>
-            <span class="task-icon task-icon--attachment"></span>
-            <b>avgus</b> написал коммент
-            <time>April 11</time>
-          </li>
-          <li>
-            <span class="task-icon task-icon--comment"></span>
-            <b>Агаев</b> написал коммент
-            <time>April 12</time>
-          </li>
-          <li>
-            <span class="task-icon task-icon--edit"></span>
-            <b>Илья</b> написал коммент
             <time>April 13</time>
           </li>
         </ul>
@@ -195,12 +180,27 @@
             <time>April 1</time>
           </li>
           <li>
-            <span class="task-icon task-icon--attachment"></span>
-            <b>avgus</b>
-            <p>Это не верстка это просто шляпа</p>
-            <time>April 2</time>
+            <span class="task-icon task-icon--edit"></span>
+            <b>Илья</b>
+            <p class="task-comment-text">Это не верстка это просто шляпа</p>
+            <time>April 1</time>
+          </li>
+          <li>
+            <span class="task-icon task-icon--edit"></span>
+            <b>Илья</b>
+            <p class="task-comment-text">Это не верстка это просто шляпа</p>
+            <time>April 1</time>
           </li>
         </ul>
+      </div>
+    </div>
+
+    <div class="details-modal-content">
+      <div class="details-modal-content">
+        <a href="#" class="btn" @click="closeModal">Сохранить</a>
+        <a href="#" class="btn btn-delete" @click="closeModal('remove')"
+          >Удалить</a
+        >
       </div>
     </div>
   </div>
@@ -230,7 +230,7 @@ export default defineComponent({
       default: "",
     },
   },
-  emits: ["close-edit-modal", "close-modal"],
+  emits: ["close-edit-modal", "close-modal", "close-modal-remove"],
   data() {
     return {
       modalTask: this.oneTask,
@@ -258,13 +258,19 @@ export default defineComponent({
         this.modalTask.competitions.push(competition);
       }
     },
-    closeModal() {
+    closeModal(status?: string) {
       if (this.modalTask !== undefined) {
         this.modalTask.date = this.date;
         if (this.modalTask.competitions === undefined) {
           this.modalTask.competitions = [];
         }
       }
+
+      if (status === "remove") {
+        this.$emit(`close-modal-remove`, this.oneTask);
+        return;
+      }
+
       if (!this.isCreateTask) {
         this.$emit(`close-edit-modal`, this.modalTask);
       } else {
@@ -281,9 +287,11 @@ export default defineComponent({
     let indexOfRecent = allActivity
       .data()
       ?.activities.findIndex((el: any) => el.board === this.boardName);
+    if (indexOfRecent === -1) {
+      return;
+    }
     this.competitions =
       allActivity.data()?.activities[indexOfRecent].competitions;
-    console.log(this.competitions);
   },
   created() {
     this.reset();
@@ -484,6 +492,10 @@ export default defineComponent({
   border-radius: 1rem 1rem 0 0;
   background-color: #ffe6e6;
   text-align: center;
+}
+
+.btn-delete {
+  margin-left: 2rem;
 }
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {

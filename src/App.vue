@@ -61,4 +61,14 @@ a.btn:hover {
   background: var(--purple);
   color: var(--bg);
 }
+
+a.btn-delete {
+  border: 2px solid #ff4d4d;
+  color: #ff4d4d;
+}
+
+a.btn-delete:hover {
+  background: #ff4d4d;
+  color: var(--bg);
+}
 </style>

@@ -6,6 +6,7 @@
       :boardName="boardName"
       v-if="openTaskModal"
       @closeEditModal="closeModal"
+      @closeModalRemove="removeCloseModal"
     ></TaskEditModal>
     <div
       class="task"
@@ -17,9 +18,12 @@
         <span
           class="task__tag task__tag--copyright"
           v-bind:class="{
-            'task__tag--no-competitions': !taskData.competitions,
+            'task__tag--no-competitions': !taskData.competitions[0],
           }"
-          >{{ taskData.competitions || "Без компетенции" }}</span
+          ><template v-if="taskData.competitions[0]">{{
+            taskData.competitions
+          }}</template>
+          <template v-else>{{ "Без компетенции" }}</template></span
         >
       </div>
       <p>{{ taskData.title || "Введите название" }}</p>
@@ -90,9 +94,24 @@ export default defineComponent({
     },
 
     closeModal(task: OneTaskInterface) {
-      this.$emit("edit-task", { taskOld: this.taskData, taskNew: task });
+      this.$emit("edit-task", {
+        taskOld: this.taskData,
+        taskNew: task,
+        status: "edit",
+      });
       this.taskData = task;
       this.openTaskModal = false;
+    },
+
+    removeCloseModal(task: OneTaskInterface) {
+      this.$emit("edit-task", {
+        taskOld: this.taskData,
+        taskNew: task,
+        status: "remove",
+      });
+      this.taskData = task;
+      this.openTaskModal = false;
+      this.$el.parentNode.removeChild(this.$el);
     },
 
     findInBoards: function (name: string, obj: []) {
