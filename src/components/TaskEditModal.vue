@@ -240,13 +240,23 @@ export default defineComponent({
     };
   },
   methods: {
-    reset() {
+    async reset() {
       this.modalTask = Object.assign({}, this.oneTask);
       this.date = Object.assign(
         {},
         this.oneTask?.date || { start: "", end: "" }
       );
       this.failedValidation = false;
+      const allActivity = await getDoc(doc(db, "db", "activity"));
+      let indexOfRecent = allActivity
+        .data()
+        ?.activities.findIndex((el: any) => el.board === this.boardName);
+      if (indexOfRecent === -1) {
+        return;
+      }
+      this.competitions =
+        allActivity.data()?.activities[indexOfRecent].competitions;
+      console.log(this.competitions);
     },
 
     autoGrow(elem: any) {
@@ -283,17 +293,9 @@ export default defineComponent({
     },
   },
   async mounted() {
-    const allActivity = await getDoc(doc(db, "db", "activity"));
-    let indexOfRecent = allActivity
-      .data()
-      ?.activities.findIndex((el: any) => el.board === this.boardName);
-    if (indexOfRecent === -1) {
-      return;
-    }
-    this.competitions =
-      allActivity.data()?.activities[indexOfRecent].competitions;
+    this.reset();
   },
-  created() {
+  async created() {
     this.reset();
   },
 });
