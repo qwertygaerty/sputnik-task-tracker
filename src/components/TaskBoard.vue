@@ -2,6 +2,7 @@
   <main class="project">
     <div class="project-info">
       <h1>{{ board.name }}</h1>
+      <a href="#" class="btn" @click="addRule">Добавить правило</a>
       <div class="project-participants">
         <a href="#" class="btn" style="margin-right: 1rem" @click="addColumn"
           >Добавить столбец</a
@@ -93,6 +94,8 @@
     :isCreateTask="true"
     @closeModal="closeTaskModal"
   ></TaskEditModal>
+
+  <RulesModal v-if="openRules" :rules="rules"> </RulesModal>
 </template>
 
 <script lang="ts">
@@ -106,6 +109,7 @@ import OneColumnInterface from "@/interfaces/OneColumnInterface";
 import TaskEditModal from "@/components/TaskEditModal.vue";
 import BoardsInterface from "@/interfaces/BoardsInterface";
 import { setup } from "vue-class-component";
+import RulesModal from "@/components/RulesModal.vue";
 
 export default defineComponent({
   name: "TaskBoard",
@@ -132,11 +136,13 @@ export default defineComponent({
     CreateModal,
     TaskEditModal,
     VueDraggableNext,
+    RulesModal,
   },
   data() {
     return {
       openCreateModal: false,
       openCreateTask: false,
+      openRules: false,
       board: this.task,
       newColumn: {
         type: {} as OneColumnInterface,
@@ -148,7 +154,10 @@ export default defineComponent({
       createModalMessage: "Новый столбец",
       saveOrCreate: "create",
       tempColumn: {} as OneColumnInterface,
-      rules: [{ start: "Надо сделать", end: "готово" }],
+      rules: [
+        { start: "Надо сделать", end: "готово" },
+        { start: "В работе", end: "Надо сделать" },
+      ],
     };
   },
   methods: {
@@ -301,6 +310,10 @@ export default defineComponent({
     },
     findInBoards: function (name: string, obj: []) {
       return obj.findIndex((el: { name: string }) => el.name == name);
+    },
+
+    addRule: function () {
+      this.openRules = true;
     },
 
     updateDB: function () {
