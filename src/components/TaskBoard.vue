@@ -2,10 +2,12 @@
   <main class="project">
     <div class="project-info">
       <h1>{{ board.name }}</h1>
-      <a href="#" class="btn" @click="addRule">Добавить правило</a>
       <div class="project-participants">
         <a href="#" class="btn" style="margin-right: 1rem" @click="addColumn"
           >Добавить столбец</a
+        >
+        <a href="#" class="btn" style="margin-right: 1rem" @click="addRule"
+          >Правила</a
         >
         <span></span>
         <span></span>
@@ -95,7 +97,11 @@
     @closeModal="closeTaskModal"
   ></TaskEditModal>
 
-  <RulesModal v-if="openRules" :rules="rules"> </RulesModal>
+  <RulesModal
+    v-if="openRules"
+    :rules="rules"
+    @closeRulesModal="closeRules"
+  ></RulesModal>
 </template>
 
 <script lang="ts">
@@ -110,6 +116,7 @@ import TaskEditModal from "@/components/TaskEditModal.vue";
 import BoardsInterface from "@/interfaces/BoardsInterface";
 import { setup } from "vue-class-component";
 import RulesModal from "@/components/RulesModal.vue";
+import RulesInterface from "@/interfaces/RulesInterface";
 
 export default defineComponent({
   name: "TaskBoard",
@@ -314,6 +321,10 @@ export default defineComponent({
 
     addRule: function () {
       this.openRules = true;
+    },
+    closeRules: function (rul: RulesInterface) {
+      this.openRules = false;
+      this.rules = rul;
     },
 
     updateDB: function () {

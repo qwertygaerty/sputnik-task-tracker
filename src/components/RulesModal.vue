@@ -44,7 +44,7 @@
             ></path></svg
         ></a>
       </div>
-      <div class="rules">
+      <div class="rules" v-if="isCreateRule">
         <div class="rule rule-start">
           <label
             ><input
@@ -66,7 +66,7 @@
     </div>
     <div class="details-modal-content">
       <a
-        v-show="isCreateRule"
+        v-show="!isCreateRule"
         href="#"
         class="task-remove project-participants__add"
         @click="openAddRule()"
@@ -101,9 +101,10 @@ export default defineComponent({
       tempRule: {} as OneRuleInterface,
     };
   },
+  emits: ["close-rules-modal"],
   methods: {
     closeModal: function () {
-      console.log("close modal");
+      this.$emit("close-rules-modal", this.rulesMass);
     },
     openAddRule: function () {
       this.isCreateRule = true;
@@ -111,14 +112,12 @@ export default defineComponent({
     addRule: function () {
       this.rulesMass.push(this.tempRule);
       this.tempRule = {} as OneRuleInterface;
+      this.isCreateRule = false;
     },
     removeRule: function (rule: OneRuleInterface) {
       let index = this.rulesMass.indexOf(rule);
       this.rulesMass.splice(index, 1);
     },
-  },
-  mounted() {
-    console.log(this.rules);
   },
 });
 </script>
