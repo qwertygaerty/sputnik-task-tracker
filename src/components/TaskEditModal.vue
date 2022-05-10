@@ -301,7 +301,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 .details-modal-edit-inputs {
   outline: none;
   font-size: 1rem;
