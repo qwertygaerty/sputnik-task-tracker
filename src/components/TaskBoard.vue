@@ -207,6 +207,14 @@ export default defineComponent({
       let massTo = evt.to.parentElement.innerText.split("\n");
       console.log(massFrom, massTo);
 
+      this.rules.forEach((el: { start: string; end: string }) => {
+        if (massFrom[0].toLowerCase() === el.start.toLowerCase()) {
+          if (massTo[0].toLowerCase() === el.end.toLowerCase()) {
+            return false;
+          } else return true;
+        }
+      });
+
       if (massFrom[0].toLowerCase() === "надо сделать") {
         if (massTo[0].toLowerCase() === "готово") {
           return false;
