@@ -204,7 +204,40 @@ export default defineComponent({
     flex-wrap: wrap;
   }
 }
+.details-modal-edit-inputs {
+  outline: none;
+  font-size: 1rem;
+  transition: padding 0.1s;
 
+  padding: 0.2rem;
+  &:focus {
+    padding: 0.3rem;
+  }
+}
+.details-modal-edit-inputs:not(.details-modal-edit-date) {
+  border: 1px solid var(--purple);
+}
+.details-modal-edit-date {
+  text-align: center;
+  width: 7rem;
+  border: none;
+}
+.edit-inputs-h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: normal;
+}
+.edit-inputs-textarea {
+  font-size: 1rem;
+  font-weight: 200;
+  width: 837px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  resize: none;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
 .rules {
   display: flex;
   flex-wrap: wrap;

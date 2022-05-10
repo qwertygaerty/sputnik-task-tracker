@@ -117,6 +117,7 @@ import BoardsInterface from "@/interfaces/BoardsInterface";
 import { setup } from "vue-class-component";
 import RulesModal from "@/components/RulesModal.vue";
 import RulesInterface from "@/interfaces/RulesInterface";
+import OneRuleInterface from "@/interfaces/OneRuleInterface";
 
 export default defineComponent({
   name: "TaskBoard",
@@ -214,6 +215,21 @@ export default defineComponent({
       return 0;
     },
 
+    rulesSearch: function (massFrom: any, massTo: any): boolean {
+      let temp = massTo[0].toLowerCase();
+      let tempEl = massFrom[0].toLowerCase();
+      this.rules.forEach((el: { start: string; end: string }) => {
+        if (massFrom[0].toLowerCase() === el.start.toLowerCase()) {
+          tempEl = el.end.toLowerCase();
+        }
+      });
+      if (temp === tempEl) {
+        return false;
+      }
+
+      return true;
+    },
+
     onMoveCallback: function (evt: {
       draggedContext: any;
       from: any;
@@ -221,20 +237,11 @@ export default defineComponent({
     }) {
       let massFrom = evt.from.parentElement.innerText.split("\n");
       let massTo = evt.to.parentElement.innerText.split("\n");
-      console.log(massFrom, massTo);
 
-      this.rules.forEach((el: { start: string; end: string }) => {
-        if (massFrom[0].toLowerCase() === el.start.toLowerCase()) {
-          if (massTo[0].toLowerCase() === el.end.toLowerCase()) {
-            return false;
-          } else return true;
-        }
-      });
+      let res = this.rulesSearch(massFrom, massTo);
 
-      if (massFrom[0].toLowerCase() === "надо сделать") {
-        if (massTo[0].toLowerCase() === "готово") {
-          return false;
-        }
+      if (!res) {
+        return false;
       }
 
       return massFrom[0].toLowerCase() !== "готово";
