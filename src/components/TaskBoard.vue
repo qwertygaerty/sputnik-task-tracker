@@ -59,8 +59,9 @@
             :animation="100"
             ghost-class="ghost-card"
             group="tasks"
-            @start="flipDrag"
+            @start="flipDrag(i.name)"
             @end="flipDrag"
+            :move="onMoveCallback"
           >
             <OneTask
               v-for="j in i.tasks"
@@ -147,6 +148,7 @@ export default defineComponent({
       createModalMessage: "Новый столбец",
       saveOrCreate: "create",
       tempColumn: {} as OneColumnInterface,
+      rules: [{ start: "Надо сделать", end: "готово" }],
     };
   },
   methods: {
@@ -196,7 +198,15 @@ export default defineComponent({
       return 0;
     },
 
-    flipDrag: function (event: CustomEvent) {
+    onMoveCallback: function (evt: { draggedContext: any; from: any }) {
+      let string = evt.from.parentElement.innerText
+        .substring(0, 6)
+        .toLowerCase();
+      console.log(string == "готово");
+      return string !== "готово";
+    },
+
+    flipDrag: function (evt: { draggedContext: any; from: any }) {
       let massOfEl = Array.from(document.getElementsByTagName("div"));
       massOfEl.forEach((el) => {
         if (el.getAttribute("animation") === "100") {
