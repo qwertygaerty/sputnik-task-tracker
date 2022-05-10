@@ -198,12 +198,22 @@ export default defineComponent({
       return 0;
     },
 
-    onMoveCallback: function (evt: { draggedContext: any; from: any }) {
-      let string = evt.from.parentElement.innerText
-        .substring(0, 6)
-        .toLowerCase();
-      console.log(string == "готово");
-      return string !== "готово";
+    onMoveCallback: function (evt: {
+      draggedContext: any;
+      from: any;
+      to: any;
+    }) {
+      let massFrom = evt.from.parentElement.innerText.split("\n");
+      let massTo = evt.to.parentElement.innerText.split("\n");
+      console.log(massFrom, massTo);
+
+      if (massFrom[0].toLowerCase() === "надо сделать") {
+        if (massTo[0].toLowerCase() === "готово") {
+          return false;
+        }
+      }
+
+      return massFrom[0].toLowerCase() !== "готово";
     },
 
     flipDrag: function (evt: { draggedContext: any; from: any }) {
