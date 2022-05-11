@@ -339,10 +339,12 @@ export default defineComponent({
     },
 
     addRule: function () {
+      this.getRules();
       this.openRules = true;
     },
     closeRules: function (rul: RulesInterface) {
       this.openRules = false;
+      console.log(rul);
       this.rules = rul;
       this.allRules[this.indexOfRule].rules = this.rules;
       this.updateRules();
@@ -353,6 +355,7 @@ export default defineComponent({
       let indexOfRule = allRule.findIndex(
         (el: any) => el.board === this.board.name
       );
+      console.log(this.board.name);
       if (indexOfRule === -1) {
         indexOfRule = allRule.length;
         allRule.push({ board: this.board.name, rules: [] });
@@ -371,9 +374,6 @@ export default defineComponent({
       this.boards[index] = this.board;
       this.updateBoards(this.boards);
     },
-  },
-  updated() {
-    this.getRules();
   },
 
   watch: {

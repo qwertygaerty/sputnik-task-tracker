@@ -112,7 +112,7 @@ export default defineComponent({
   emits: ["close-rules-modal"],
   methods: {
     closeModal: function () {
-      this.$emit("close-rules-modal", this.rulesMass);
+      this.$emit("close-rules-modal", Object.assign(this.rulesMass));
     },
     openAddRule: function () {
       this.isCreateRule = true;
@@ -125,6 +125,11 @@ export default defineComponent({
     removeRule: function (rule: OneRuleInterface) {
       let index = this.rulesMass.indexOf(rule);
       this.rulesMass.splice(index, 1);
+    },
+  },
+  watch: {
+    rules: function () {
+      this.rulesMass = this.rules;
     },
   },
 });
