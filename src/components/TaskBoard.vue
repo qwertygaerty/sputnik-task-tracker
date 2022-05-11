@@ -217,7 +217,7 @@ export default defineComponent({
 
     rulesSearch: function (massFrom: any, massTo: any): boolean {
       let temp = massTo[0].toLowerCase();
-      let tempEl = massFrom[0].toLowerCase();
+      let tempEl = this.rules[0].end.toLowerCase();
       this.rules.forEach((el: { start: string; end: string }) => {
         if (massFrom[0].toLowerCase() === el.start.toLowerCase()) {
           tempEl = el.end.toLowerCase();
@@ -226,7 +226,6 @@ export default defineComponent({
       if (temp === tempEl) {
         return false;
       }
-
       return true;
     },
 
