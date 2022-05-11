@@ -68,55 +68,7 @@ export default defineComponent({
   components: { CreateModal },
   data() {
     return {
-      boards: [
-        {
-          name: "Доска 1",
-          columns: [
-            {
-              name: "Надо сделать",
-              tasks: [
-                {
-                  title: "Написать апи на ларке",
-                  description:
-                    "Написать апи на ларкеНаписать апи на ларкеНаписать апи на ларкеНаписать апи на ларкеНаписать апи на ларке",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "2023-04-05", end: "2024-04-05" },
-                  competitions: "Бекэнд",
-                },
-                {
-                  title: "Сверстать что нибудь",
-                  description:
-                    "Сверстать что нибудьСверстать что нибудьСверстать что нибудьСверстать что нибудьСверстать что нибудь",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "2022-04-05", end: "2023-04-05" },
-                  competitions: "Фронтенд",
-                },
-                {
-                  title: "Сделать анализ втупую",
-                  description:
-                    "Сделать анализ втупуюСделать анализ втупуюСделать анализ втупуюСделать анализ втупую",
-                  user: { img: "red", name: "ilia" },
-                  date: { start: "2022-04-05", end: "2024-04-05" },
-                  competitions: ["Аналитик", "Фронтенд"],
-                },
-              ],
-            },
-            {
-              name: "В работе",
-              tasks: [],
-            },
-            {
-              name: "Готово",
-              tasks: [],
-            },
-          ],
-          users: [
-            { img: "red", name: "daniel" },
-            { img: "blue", name: "ilya" },
-            { img: "purple", name: "masha" },
-          ],
-        },
-      ] as BoardsInterface,
+      boards: [] as BoardsInterface,
       openCreateModal: false,
       openOneBoard: false,
       createModalMessage: "Новая доска",
@@ -176,7 +128,7 @@ export default defineComponent({
 
       const querySnapshot = await getDocs(collection(db, `db`));
       querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
+        // console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
         if (doc.id === "boards") {
           this.boards = doc.data().boards;
         }
