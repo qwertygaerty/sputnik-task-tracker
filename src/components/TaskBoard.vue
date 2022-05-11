@@ -101,6 +101,7 @@
     v-if="openRules"
     :rules="rules"
     :columns="board.columns"
+    :boardName="board.name"
     @closeRulesModal="closeRules"
   ></RulesModal>
 </template>
@@ -108,7 +109,7 @@
 <script lang="ts">
 import OneTask from "@/components/OneTask.vue";
 import CreateModal from "@/components/CreateModal.vue";
-import { defineComponent, PropType, inject } from "vue";
+import { defineComponent, PropType, inject, ref } from "vue";
 import { VueDraggableNext } from "vue-draggable-next";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
 import OneTaskInterface from "@/interfaces/OneTaskInterface";
@@ -119,6 +120,8 @@ import { setup } from "vue-class-component";
 import RulesModal from "@/components/RulesModal.vue";
 import RulesInterface from "@/interfaces/RulesInterface";
 import OneRuleInterface from "@/interfaces/OneRuleInterface";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { db } from "@/firebase/firebase_config";
 
 export default defineComponent({
   name: "TaskBoard",
@@ -134,7 +137,7 @@ export default defineComponent({
       boards: any;
     };
     const updateBoards = b.updateBoards;
-    const boards = b.boards;
+    const boards = ref(b.boards);
     return {
       boards,
       updateBoards,
@@ -166,6 +169,10 @@ export default defineComponent({
       rules: [
         { start: "Надо сделать", end: "готово" },
         { start: "В работе", end: "Надо сделать" },
+      ],
+      indexOfRule: 0,
+      allRules: [
+        { board: "Доска 2", rules: [{ start: "Надо сделать", end: "готово" }] },
       ],
     };
   },
@@ -337,13 +344,36 @@ export default defineComponent({
     closeRules: function (rul: RulesInterface) {
       this.openRules = false;
       this.rules = rul;
+      this.allRules[this.indexOfRule].rules = this.rules;
+      this.updateRules();
     },
-
+    getRules: async function () {
+      const allRules = await getDoc(doc(db, "db", "rules"));
+      let allRule = allRules.data()?.rules;
+      let indexOfRule = allRule.findIndex(
+        (el: any) => el.board === this.board.name
+      );
+      if (indexOfRule === -1) {
+        indexOfRule = allRule.length;
+        allRule.push({ board: this.board.name, rules: [] });
+      }
+      this.allRules = allRule;
+      this.rules = allRule[indexOfRule].rules;
+      this.indexOfRule = indexOfRule;
+    },
+    updateRules: async function () {
+      await setDoc(doc(db, "db", "rules"), {
+        rules: this.allRules,
+      });
+    },
     updateDB: function () {
       let index = this.findInBoards(this.task.name, this.boards);
       this.boards[index] = this.board;
       this.updateBoards(this.boards);
     },
+  },
+  updated() {
+    this.getRules();
   },
 
   watch: {

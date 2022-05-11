@@ -177,7 +177,9 @@ export default defineComponent({
       const querySnapshot = await getDocs(collection(db, `db`));
       querySnapshot.forEach((doc) => {
         console.log(`${doc.id} => ${JSON.stringify(doc.data())}`);
-        this.boards = doc.data().boards;
+        if (doc.id === "boards") {
+          this.boards = doc.data().boards;
+        }
       });
     },
     openTaskBoard: function (Board: OneBoardInterface) {

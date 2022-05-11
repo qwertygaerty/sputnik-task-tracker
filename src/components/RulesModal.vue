@@ -18,7 +18,7 @@
     </div>
     <div class="details-modal-title">
       <div class="details-modal-title-text">
-        <h2>Правила перемещения тасков</h2>
+        <h2>Правила перемещения тасков {{ boardName }}</h2>
       </div>
     </div>
     <div class="details-modal-title">
@@ -86,6 +86,8 @@ import { defineComponent, Prop, PropType } from "vue";
 import OneRuleInterface from "@/interfaces/OneRuleInterface";
 import RulesInterface from "@/interfaces/RulesInterface";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase/firebase_config";
 
 export default defineComponent({
   name: "RulesModal",
@@ -98,6 +100,7 @@ export default defineComponent({
       type: Object as PropType<OneBoardInterface>,
       default: Object as PropType<OneBoardInterface>,
     },
+    boardName: String,
   },
   data: function () {
     return {

@@ -46,7 +46,7 @@ export default defineComponent({
   components: { RecentActivity, TaskBoards, HeaderPanel, TaskBoard },
   data() {
     return {
-      board: {} as OneBoardInterface,
+      board: ref({} as OneBoardInterface),
       newBoard: {} as OneBoardInterface,
       boardsItem: {} as BoardsInterface,
     };
