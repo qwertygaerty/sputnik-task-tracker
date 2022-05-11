@@ -88,6 +88,8 @@ import RulesInterface from "@/interfaces/RulesInterface";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebase_config";
+import OneColumnInterface from "@/interfaces/OneColumnInterface";
+import ColumnsInterface from "@/interfaces/ColumnsInterface";
 
 export default defineComponent({
   name: "RulesModal",
@@ -97,8 +99,8 @@ export default defineComponent({
       default: {} as PropType<RulesInterface>,
     },
     columns: {
-      type: Object as PropType<OneBoardInterface>,
-      default: Object as PropType<OneBoardInterface>,
+      type: Object as PropType<ColumnsInterface>,
+      default: Object as PropType<ColumnsInterface>,
     },
     boardName: String,
   },
@@ -112,7 +114,7 @@ export default defineComponent({
   emits: ["close-rules-modal"],
   methods: {
     closeModal: function () {
-      this.$emit("close-rules-modal", Object.assign(this.rulesMass));
+      this.$emit("close-rules-modal", this.rulesMass);
     },
     openAddRule: function () {
       this.isCreateRule = true;

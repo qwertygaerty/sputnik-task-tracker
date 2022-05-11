@@ -339,7 +339,6 @@ export default defineComponent({
     },
 
     addRule: function () {
-      this.getRules();
       this.openRules = true;
     },
     closeRules: function (rul: RulesInterface) {
@@ -375,10 +374,14 @@ export default defineComponent({
       this.updateBoards(this.boards);
     },
   },
+  mounted() {
+    this.getRules();
+  },
 
   watch: {
     task: function () {
       this.board = this.task;
+      this.getRules();
     },
   },
 });
