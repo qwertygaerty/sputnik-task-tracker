@@ -46,20 +46,20 @@
       </div>
       <div class="rules" v-if="isCreateRule">
         <div class="rule rule-start">
-          <label
-            ><input
-              type="text"
-              class="details-modal-edit-inputs edit-inputs-h1"
-              v-model="tempRule.start"
-          /></label>
+          <select
+            v-model="tempRule.start"
+            class="details-modal-edit-inputs edit-inputs-h1"
+          >
+            <option v-for="i in columns" :key="i">{{ i.name }}</option>
+          </select>
         </div>
         <div class="rule rule-end">
-          <label
-            ><input
-              type="text"
-              class="details-modal-edit-inputs edit-inputs-h1"
-              v-model="tempRule.end"
-          /></label>
+          <select
+            v-model="tempRule.end"
+            class="details-modal-edit-inputs edit-inputs-h1"
+          >
+            <option v-for="i in columns" :key="i">{{ i.name }}</option>
+          </select>
         </div>
         <a href="#" class="btn" @click="addRule()">Добавить</a>
       </div>
@@ -82,9 +82,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
+import { defineComponent, Prop, PropType } from "vue";
 import OneRuleInterface from "@/interfaces/OneRuleInterface";
 import RulesInterface from "@/interfaces/RulesInterface";
+import OneBoardInterface from "@/interfaces/OneBoardInterface";
 
 export default defineComponent({
   name: "RulesModal",
@@ -92,6 +93,10 @@ export default defineComponent({
     rules: {
       type: Array as PropType<RulesInterface>,
       default: {} as PropType<RulesInterface>,
+    },
+    columns: {
+      type: Object as PropType<OneBoardInterface>,
+      default: Object as PropType<OneBoardInterface>,
     },
   },
   data: function () {
@@ -177,7 +182,7 @@ export default defineComponent({
     color: var(--purple);
   }
   .details-modal-title h1 {
-    font-size: 1.25rem;
+    font-size: 1rem;
     font-weight: 600;
     line-height: normal;
   }
@@ -210,9 +215,6 @@ export default defineComponent({
   transition: padding 0.1s;
 
   padding: 0.2rem;
-  &:focus {
-    padding: 0.3rem;
-  }
 }
 .details-modal-edit-inputs:not(.details-modal-edit-date) {
   border: 1px solid var(--purple);

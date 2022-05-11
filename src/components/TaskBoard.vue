@@ -100,6 +100,7 @@
   <RulesModal
     v-if="openRules"
     :rules="rules"
+    :columns="board.columns"
     @closeRulesModal="closeRules"
   ></RulesModal>
 </template>
@@ -217,16 +218,21 @@ export default defineComponent({
 
     rulesSearch: function (massFrom: any, massTo: any): boolean {
       let temp = massTo[0].toLowerCase();
-      let tempEl = this.rules[0].end.toLowerCase();
+      let tempEl: any = [];
       this.rules.forEach((el: { start: string; end: string }) => {
         if (massFrom[0].toLowerCase() === el.start.toLowerCase()) {
-          tempEl = el.end.toLowerCase();
+          tempEl.push(el.end.toLowerCase());
         }
       });
-      if (temp === tempEl) {
-        return false;
-      }
-      return true;
+      let temper = true;
+      tempEl.forEach((el: string) => {
+        console.log(tempEl);
+        console.log(el, temp);
+        if (temp === el) {
+          temper = false;
+        }
+      });
+      return temper;
     },
 
     onMoveCallback: function (evt: {
