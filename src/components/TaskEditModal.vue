@@ -1,4 +1,4 @@
-<template draggable="false">
+<template>
   <div class="details-modal" draggable="false">
     <div
       class="details-modal-close"

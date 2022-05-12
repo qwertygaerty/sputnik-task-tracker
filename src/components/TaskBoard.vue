@@ -79,6 +79,7 @@
     v-if="openCreateModal"
     :input-name="createModalMessage"
     :saveOrCreate="saveOrCreate"
+    :message="createMessage"
     @closeEditCreateModal="addCreateModal"
     @closeEditModal="closeCreateModal"
     @closeCreateModal="closeCreateModal"
@@ -151,6 +152,7 @@ export default defineComponent({
       isClose: false,
       openCreateModal: false,
       openCreateTask: false,
+      createMessage: "",
       openRules: false,
       board: this.task,
       newColumn: {
@@ -159,7 +161,6 @@ export default defineComponent({
       oneTask: {} as OneTaskInterface,
       indexOfTask: {} as OneColumnInterface,
       isCreateTask: true,
-      columnNumber: 0,
       createModalMessage: "Новый столбец",
       saveOrCreate: "create",
       tempColumn: {} as OneColumnInterface,
@@ -178,15 +179,15 @@ export default defineComponent({
       return i.tasks[0];
     },
     addColumn: function () {
-      this.columnNumber++;
-      this.createModalMessage = "Новый столбец " + this.columnNumber;
+      this.createModalMessage = "Новый столбец";
+      this.createMessage = "Добавить столбец";
       this.saveOrCreate = "create";
       this.openCreateModal = !this.openCreateModal;
     },
     addCard: function (num: OneColumnInterface) {
       console.log(num);
       this.indexOfTask = num;
-      this.openCreateTask = true;
+      this.openCreateTask = !this.openCreateTask;
     },
     closeTaskModal: function (task: OneTaskInterface) {
       if (this.board !== undefined) {
@@ -200,11 +201,15 @@ export default defineComponent({
 
     closeCreateModal() {
       this.openCreateModal = false;
+      this.isClose = false;
     },
     closeAllModals() {
       if (this.openCreateModal || this.openCreateTask || this.openRules) {
         this.isClose = !this.isClose;
+      } else {
+        this.isClose = false;
       }
+      console.log(this.isClose);
 
       if (!this.isClose) {
         this.openCreateModal = false;
@@ -296,6 +301,7 @@ export default defineComponent({
     },
 
     editBoard: function (column: OneColumnInterface) {
+      this.createMessage = "Изменить столбец";
       this.createModalMessage = column.name;
       this.saveOrCreate = "save";
       this.openCreateModal = !this.openCreateModal;

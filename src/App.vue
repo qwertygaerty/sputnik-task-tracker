@@ -8,6 +8,11 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Segoe UI", sans-serif;
+  transform: scale(1);
+}
+
+html {
+  background-color: var(--bg);
 }
 
 #app {
@@ -37,7 +42,7 @@
   --purple: #809fff;
 }
 
-a.btn {
+.btn {
   border-radius: 40px;
   border: 2px solid var(--purple);
   box-sizing: border-box;
@@ -57,17 +62,17 @@ a.btn {
   transition: background-color 0.2s;
 }
 
-a.btn:hover {
+.btn:hover {
   background: var(--purple);
   color: var(--bg);
 }
 
-a.btn-delete {
+.btn-delete {
   border: 2px solid #ff4d4d;
   color: #ff4d4d;
 }
 
-a.btn-delete:hover {
+.btn-delete:hover {
   background: #ff4d4d;
   color: var(--bg);
 }

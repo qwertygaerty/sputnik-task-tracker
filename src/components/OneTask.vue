@@ -7,6 +7,7 @@
       v-if="openTaskModal"
       @closeEditModal="closeModal"
       @closeModalRemove="removeCloseModal"
+      draggable="false"
     ></TaskEditModal>
     <div
       class="task"

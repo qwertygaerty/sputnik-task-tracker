@@ -18,17 +18,24 @@
     </div>
     <div class="details-modal-title">
       <div class="details-modal-title-text">
+        <h2>{{ message }}</h2>
+      </div>
+    </div>
+    <div class="details-modal-title">
+      <div class="details-modal-title-text">
         <label
           ><input
             type="text"
             class="details-modal-edit-inputs edit-inputs-h1"
             v-model="boardName"
         /></label>
-        <a href="#" class="btn" @click="closeWithEdit">
-          <template v-if="saveOrCreate === 'save'">Сохранить</template>
-          <template v-else>Добавить</template>
-        </a>
       </div>
+    </div>
+    <div class="details-modal-content">
+      <a href="#" class="btn" @click="closeWithEdit">
+        <template v-if="saveOrCreate === 'save'">Сохранить</template>
+        <template v-else>Добавить</template>
+      </a>
     </div>
   </div>
 </template>
@@ -40,6 +47,10 @@ export default defineComponent({
   name: "CreateModal",
   props: {
     inputName: {
+      type: String,
+      default: "",
+    },
+    message: {
       type: String,
       default: "",
     },
@@ -80,8 +91,12 @@ export default defineComponent({
 .details-modal-edit-inputs {
   outline: none;
   font-size: 1rem;
-  border: none;
   transition: padding 0.1s;
+  padding: 0.3rem;
+  border: 1px solid #ffffff;
+  &:focus {
+    border: 1px solid var(--purple);
+  }
 }
 
 .edit-inputs-h1 {
@@ -101,11 +116,6 @@ export default defineComponent({
 
 .edit-inputs-textarea::-webkit-scrollbar {
   width: 0;
-}
-
-.details-modal-edit-inputs:focus {
-  border: 1px solid var(--purple);
-  padding: 0.2rem;
 }
 
 .details-modal {
@@ -222,9 +232,9 @@ export default defineComponent({
 }
 
 .details-modal-create-task {
-  height: auto;
   transform: translate(-50%, 50%);
   width: 30em;
+  height: 30rem;
 }
 
 .details-modal-task-tags {

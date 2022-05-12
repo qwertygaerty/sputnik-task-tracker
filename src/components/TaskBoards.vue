@@ -37,6 +37,7 @@
     @closeEditModal="closeCreateModal"
     @closeEditCreateModal="addCreateModal"
     @closeSaveCreateModal="saveModal"
+    :message="createMessage"
   ></CreateModal>
 </template>
 
@@ -74,6 +75,7 @@ export default defineComponent({
       createModalMessage: "Новая доска",
       saveOrCreate: "create",
       tempBoard: {} as OneBoardInterface,
+      createMessage: "",
     };
   },
   methods: {
@@ -89,6 +91,7 @@ export default defineComponent({
 
     editBoard: function (board: OneBoardInterface) {
       this.createModalMessage = board.name;
+      this.createMessage = "Редактировать Доску";
       this.saveOrCreate = "save";
       this.openCreateModal = !this.openCreateModal;
       this.tempBoard = board;
@@ -96,6 +99,7 @@ export default defineComponent({
 
     openModal() {
       this.saveOrCreate = "create";
+      this.createMessage = "Создать новую доску";
       this.createModalMessage = "Новая доска";
       this.openCreateModal = !this.openCreateModal;
     },
