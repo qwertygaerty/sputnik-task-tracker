@@ -1,5 +1,5 @@
 <template>
-  <main class="project">
+  <main class="project" @click="closeAllModals">
     <div class="project-info">
       <h1>{{ board.name }}</h1>
       <div class="project-participants">
@@ -9,12 +9,6 @@
         <a href="#" class="btn" style="margin-right: 1rem" @click="addRule"
           >Правила</a
         >
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <button class="project-participants__add"></button>
       </div>
     </div>
     <div class="">
@@ -62,9 +56,9 @@
             :animation="100"
             ghost-class="ghost-card"
             group="tasks"
+            :move="onMoveCallback"
             @start="flipDrag(i.name)"
             @end="flipDrag"
-            :move="onMoveCallback"
           >
             <OneTask
               v-for="j in i.tasks"
@@ -86,8 +80,10 @@
     :input-name="createModalMessage"
     :saveOrCreate="saveOrCreate"
     @closeEditCreateModal="addCreateModal"
+    @closeEditModal="closeCreateModal"
     @closeCreateModal="closeCreateModal"
     @closeSaveCreateModal="saveModal"
+    @closeModal="closeCreateModal"
   ></CreateModal>
 
   <TaskEditModal
@@ -152,6 +148,7 @@ export default defineComponent({
   },
   data() {
     return {
+      isClose: false,
       openCreateModal: false,
       openCreateTask: false,
       openRules: false,
@@ -189,7 +186,7 @@ export default defineComponent({
     addCard: function (num: OneColumnInterface) {
       console.log(num);
       this.indexOfTask = num;
-      this.openCreateTask = !this.openCreateTask;
+      this.openCreateTask = true;
     },
     closeTaskModal: function (task: OneTaskInterface) {
       if (this.board !== undefined) {
@@ -203,6 +200,17 @@ export default defineComponent({
 
     closeCreateModal() {
       this.openCreateModal = false;
+    },
+    closeAllModals() {
+      if (this.openCreateModal || this.openCreateTask || this.openRules) {
+        this.isClose = !this.isClose;
+      }
+
+      if (!this.isClose) {
+        this.openCreateModal = false;
+        this.openCreateTask = false;
+        this.openRules = false;
+      }
     },
 
     addCreateModal: function (newColumn: string) {
@@ -218,7 +226,9 @@ export default defineComponent({
 
     getColumnNumber: function (column: OneColumnInterface) {
       if (this.board !== undefined) {
-        return this.board.columns.findIndex((i) => i.name === column.name);
+        return this.board.columns.findIndex(
+          (i: { name: string }) => i.name === column.name
+        );
       }
       return 0;
     },

@@ -42,21 +42,6 @@
       <a href="#" class="btn" @click="addRecent">Добавить</a>
     </div>
   </div>
-  <div class="task-activity">
-    <h2>Недавняя активность</h2>
-    <ul>
-      <li>
-        <span class="task-icon task-icon--attachment"></span>
-        <b>avgus</b> написал коммент
-        <time>April 11</time>
-      </li>
-      <li>
-        <span class="task-icon task-icon--comment"></span>
-        <b>Агаев</b> написал коммент
-        <time>April 12</time>
-      </li>
-    </ul>
-  </div>
 </template>
 
 <script lang="ts">

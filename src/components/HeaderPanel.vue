@@ -4,34 +4,6 @@
       <img src="../assets/logo.png" alt="logo" class="header-logo" />Task
       Tracker
     </h4>
-
-    <div class="header-elements">
-      <router-link to="/reg" style="text-decoration: none">
-        <e-button
-          :data="{
-            disabled: false,
-            rounded: '40px',
-            leftIcon: 'person-circle',
-            size: '0.4rem',
-            softColors: true,
-          }"
-          :styleConfig="{
-            border: '2px solid var(--purple)',
-            textDecoration: 'none',
-            fontWeight: '400',
-            fontFamily: `-apple-system, system-ui, 'Segoe UI', 'Liberation Sans'`,
-            fontSize: '13px',
-            padding: '8px 0.8em',
-            hover: {
-              background: 'var(--purple)',
-              color: 'var(--bg)',
-            },
-            background: 'none',
-          }"
-          >Войти</e-button
-        ></router-link
-      >
-    </div>
   </header>
   <BoardCreateModal
     v-if="openCreateModal"
