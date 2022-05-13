@@ -93,10 +93,7 @@ export default defineComponent({
   font-size: 1rem;
   transition: padding 0.1s;
   padding: 0.3rem;
-  border: 1px solid #ffffff;
-  &:focus {
-    border: 1px solid var(--purple);
-  }
+  border: 1px solid var(--purple);
 }
 
 .edit-inputs-h1 {
@@ -234,7 +231,7 @@ export default defineComponent({
 .details-modal-create-task {
   transform: translate(-50%, 50%);
   width: 30em;
-  height: 30rem;
+  height: 15rem;
 }
 
 .details-modal-task-tags {
