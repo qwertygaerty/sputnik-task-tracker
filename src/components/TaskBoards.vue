@@ -81,6 +81,7 @@ export default defineComponent({
   methods: {
     removeBoard: function (board: OneBoardInterface) {
       let index = this.boards.indexOf(board);
+
       if (this.openOneBoard) {
         this.$emit(`get-board`, this.boards[index] as OneBoardInterface);
         this.$emit(`get-boards`, this.boards);

@@ -59,12 +59,13 @@ export default defineComponent({
       this.boards = this.boardsItem;
     },
     getBoardTask: function (item: OneBoardInterface) {
-      this.boardNow = item.name;
-      console.log(this.boardNow);
       if (this.board == item) {
         this.board = {} as OneBoardInterface;
+        this.boardNow = "";
       } else {
         this.board = item;
+        this.boardNow = item.name;
+        console.log(this.boardNow);
       }
     },
   },

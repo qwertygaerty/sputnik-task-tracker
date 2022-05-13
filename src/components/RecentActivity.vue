@@ -116,7 +116,7 @@ export default defineComponent({
       );
       if (this.indexOfRecent === -1) {
         this.indexOfRecent = this.allActivities.length;
-        this.allActivities.push({ board: this.boardName, competitions: [{}] });
+        this.allActivities.push({ board: this.boardNow, competitions: [{}] });
       }
       this.activities = this.allActivities[this.indexOfRecent];
     },
