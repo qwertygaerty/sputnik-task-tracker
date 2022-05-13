@@ -208,18 +208,23 @@ export default defineComponent({
       this.isClose = false;
     },
     closeAllModals() {
+      if (this.openRules) {
+        console.log(
+          this.openCreateModal || this.openCreateTask || this.openRules
+        );
+      }
       if (this.openCreateModal || this.openCreateTask || this.openRules) {
         this.isClose = !this.isClose;
       } else {
         this.isClose = false;
       }
-      console.log(this.isClose);
 
       if (!this.isClose) {
         this.openCreateModal = false;
         this.openCreateTask = false;
         this.openRules = false;
       }
+      console.log(this.isClose, this.openRules);
     },
 
     addCreateModal: function (newColumn: string) {
@@ -367,7 +372,7 @@ export default defineComponent({
     },
     closeRules: function (rul: RulesInterface) {
       this.openRules = false;
-      console.log(rul);
+      console.log(this.openRules);
       this.rules = rul;
       this.allRules[this.indexOfRule].rules = this.rules;
       this.updateRules();
@@ -386,6 +391,7 @@ export default defineComponent({
       this.allRules = allRule;
       this.rules = allRule[indexOfRule].rules;
       this.indexOfRule = indexOfRule;
+      this.openRules = false;
     },
     updateRules: async function () {
       await setDoc(doc(db, "db", "rules"), {
