@@ -50,7 +50,13 @@
             v-model="tempRule.start"
             class="details-modal-edit-inputs edit-inputs-h1"
           >
-            <option v-for="i in columns" :key="i">{{ i.name }}</option>
+            <option
+              v-for="i in columns"
+              :key="i"
+              class="details-modal-edit-option"
+            >
+              {{ i.name }}
+            </option>
           </select>
         </div>
         <div class="rule rule-end">
@@ -230,5 +236,8 @@ export default defineComponent({
     background: var(--purple);
     color: white;
   }
+}
+.details-modal-edit-option {
+  box-shadow: none;
 }
 </style>
