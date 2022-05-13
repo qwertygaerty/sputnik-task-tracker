@@ -429,6 +429,26 @@ export default defineComponent({
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
   .edit-inputs-textarea {
     width: auto;
+    font-size: 11px;
+  }
+  .details-modal .details-modal-content {
+    padding: 1rem 1rem;
+  }
+  .details-modal-title-text {
+    width: 15rem;
+  }
+  .grow-wrap {
+    width: 100%;
+    textarea {
+      width: 100%;
+    }
+  }
+  .details-modal-edit-inputs.edit-inputs-h1 {
+    width: 100%;
+    font-size: 1rem;
+  }
+  .task__tag {
+    font-size: 11px;
   }
 }
 </style>

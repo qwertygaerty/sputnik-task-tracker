@@ -31,7 +31,7 @@
         v-model:gradientColor="gradientColor"
         shape="circle"
       />
-      <div class="tag-create-text tag-progress">
+      <div class="tag-create-text">
         <label
           ><input
             type="text"
@@ -254,6 +254,17 @@ export default defineComponent({
   &:hover::after {
     background: var(--purple);
     color: white;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  .details-modal-edit-inputs {
+    outline: none;
+    font-size: 1.3rem;
+    border: 1px solid var(--purple);
+  }
+  .tag-create-text.tag-progress {
+    width: 50%;
   }
 }
 </style>

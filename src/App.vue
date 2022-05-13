@@ -8,7 +8,6 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Segoe UI", sans-serif;
-  transform: scale(1);
 }
 
 html {

@@ -187,4 +187,10 @@ export default defineComponent({
   display: flex;
   gap: 1rem;
 }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
+  .task-remove {
+    visibility: visible;
+  }
+}
 </style>

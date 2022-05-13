@@ -527,6 +527,16 @@ export default defineComponent({
     grid-template-columns: 1fr;
     border-bottom: 2px dashed var(--purple);
   }
+
+  .min-height-40 {
+    min-height: auto;
+  }
+  .project-participants {
+    margin-top: 1rem;
+  }
+  .project .task-remove {
+    visibility: visible;
+  }
 }
 
 .ghost-card {
