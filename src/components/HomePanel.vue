@@ -1,7 +1,7 @@
 <template>
   <HeaderPanel></HeaderPanel>
   <aside class="task-details">
-    <RecentActivity></RecentActivity>
+    <RecentActivity :boardNow="boardNow"></RecentActivity>
     <TaskBoards
       @getBoard="getBoardTask"
       @getBoards="getBoards"
@@ -49,6 +49,7 @@ export default defineComponent({
       board: ref({} as OneBoardInterface),
       newBoard: {} as OneBoardInterface,
       boardsItem: {} as BoardsInterface,
+      boardNow: "Доска 2",
     };
   },
 
@@ -58,6 +59,8 @@ export default defineComponent({
       this.boards = this.boardsItem;
     },
     getBoardTask: function (item: OneBoardInterface) {
+      this.boardNow = item.name;
+      console.log(this.boardNow);
       if (this.board == item) {
         this.board = {} as OneBoardInterface;
       } else {
