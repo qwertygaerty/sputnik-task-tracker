@@ -1,4 +1,4 @@
-<template>
+<template draggable="false">
   <div class="back">
     <TaskEditModal
       :oneTask="oneTask"
@@ -11,7 +11,6 @@
     ></TaskEditModal>
     <div
       class="task"
-      draggable="true"
       @contextmenu="onContextMenu($event)"
       @click="openModal(taskData)"
     >
@@ -70,7 +69,7 @@ export default defineComponent({
     },
     boardName: String,
   },
-  emits: ["edit-task"],
+  emits: ["edit-task", "open-child-modal"],
   components: { TaskEditModal },
   setup() {
     const b = inject("boards") as { updateBoards: any; boards: any };
@@ -90,11 +89,13 @@ export default defineComponent({
   },
   methods: {
     openModal(task: OneTaskInterface) {
+      this.$emit("open-child-modal", true);
       this.oneTask = task;
       this.openTaskModal = !this.openTaskModal;
     },
 
     closeModal(task: OneTaskInterface) {
+      this.$emit("open-child-modal", false);
       this.$emit("edit-task", {
         taskOld: this.taskData,
         taskNew: task,

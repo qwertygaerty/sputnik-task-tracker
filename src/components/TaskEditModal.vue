@@ -41,7 +41,6 @@
             v-model="modalTask.title"
             v-on:focus="autoGrow(this)"
         /></label>
-        <p>в колонке <a href="#">Нужно сделать</a></p>
       </div>
 
       <svg
@@ -385,6 +384,7 @@ export default defineComponent({
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
+  margin-top: 1rem;
 }
 
 .svg-icon {

@@ -19,6 +19,7 @@
         group="board.columns"
         class="project-tasks"
         @end="flipDrag"
+        :disabled="this.isOpenChildModal"
       >
         <div
           class="project-column tasks-column"
@@ -59,6 +60,7 @@
             :move="onMoveCallback"
             @start="flipDrag(i.name)"
             @end="flipDrag"
+            :disabled="this.isOpenChildModal"
           >
             <OneTask
               v-for="j in i.tasks"
@@ -68,6 +70,7 @@
               class="drag-and-drop"
               @editTask="editTask"
               @click="setTempValue(i)"
+              @openChildModal="openChildModal"
             ></OneTask>
           </VueDraggableNext>
         </div>
@@ -152,6 +155,7 @@ export default defineComponent({
       isClose: false,
       openCreateModal: false,
       openCreateTask: false,
+      isOpenChildModal: false,
       createMessage: "",
       openRules: false,
       board: this.task,
@@ -352,6 +356,10 @@ export default defineComponent({
     },
     findInBoards: function (name: string, obj: []) {
       return obj.findIndex((el: { name: string }) => el.name == name);
+    },
+    openChildModal: function (bool: boolean) {
+      this.isOpenChildModal = bool;
+      console.log(654);
     },
 
     addRule: function () {
