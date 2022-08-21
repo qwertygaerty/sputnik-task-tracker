@@ -67,7 +67,7 @@
         </p>
       </div>
       <div class="modal-right">
-        <img src="../assets/register.png" alt="logo" />
+        <img src="../../assets/register.png" alt="logo" />
       </div>
     </div>
   </div>

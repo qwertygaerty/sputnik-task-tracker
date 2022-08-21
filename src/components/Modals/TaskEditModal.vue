@@ -133,8 +133,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import OneTaskInterface from "../interfaces/OneTaskInterface";
-import OneColumnInterface from "@/interfaces/OneColumnInterface";
+import OneTaskInterface from "../../interfaces/OneTaskInterface";
 import OneActivityInterface from "@/interfaces/OneActivityInterface";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/firebase/firebase_config";

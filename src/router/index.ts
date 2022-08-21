@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomePanel from "../components/HomePanel.vue";
-import RegisterWindow from "@/components/RegisterWindow.vue";
+import HomePanel from "../pages/HomePanel.vue";
+import RegisterWindow from "@/components/Modals/RegisterWindow.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {

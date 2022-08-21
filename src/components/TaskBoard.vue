@@ -108,16 +108,16 @@
 
 <script lang="ts">
 import OneTask from "@/components/OneTask.vue";
-import CreateModal from "@/components/CreateModal.vue";
+import CreateModal from "@/components/Modals/CreateModal.vue";
 import { defineComponent, PropType, inject, ref } from "vue";
 import { VueDraggableNext } from "vue-draggable-next";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
 import OneTaskInterface from "@/interfaces/OneTaskInterface";
 import OneColumnInterface from "@/interfaces/OneColumnInterface";
-import TaskEditModal from "@/components/TaskEditModal.vue";
+import TaskEditModal from "@/components/Modals/TaskEditModal.vue";
 import BoardsInterface from "@/interfaces/BoardsInterface";
 import { setup } from "vue-class-component";
-import RulesModal from "@/components/RulesModal.vue";
+import RulesModal from "@/components/Modals/RulesModal.vue";
 import RulesInterface from "@/interfaces/RulesInterface";
 import OneRuleInterface from "@/interfaces/OneRuleInterface";
 import { doc, getDoc, setDoc } from "firebase/firestore";

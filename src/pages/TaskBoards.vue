@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import CreateModal from "@/components/CreateModal.vue";
+import CreateModal from "@/components/Modals/CreateModal.vue";
 import OneBoardInterface from "@/interfaces/OneBoardInterface";
 import BoardsInterface from "@/interfaces/BoardsInterface";
 import {

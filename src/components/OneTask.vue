@@ -57,7 +57,7 @@
 
 <script lang="ts">
 import { defineComponent, inject, PropType } from "vue";
-import TaskEditModal from "@/components/TaskEditModal.vue";
+import TaskEditModal from "@/components/Modals/TaskEditModal.vue";
 import OneTaskInterface from "@/interfaces/OneTaskInterface";
 
 export default defineComponent({

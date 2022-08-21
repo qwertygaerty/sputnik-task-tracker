@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import BoardCreateModal from "@/components/CreateModal.vue";
+import BoardCreateModal from "@/components/Modals/CreateModal.vue";
 
 export default defineComponent({
   name: "HeaderPanel",
